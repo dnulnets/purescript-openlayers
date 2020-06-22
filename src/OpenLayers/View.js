@@ -8,8 +8,15 @@
 // Get hold of the OpenLayer types and functions
 var ol  = require ('ol');
 
-// Helper functions for purescripts FFI
-var p = require ('./src/OpenLayers/FFI.js')
+effize = function (method) {
+    return function () {
+        var me = arguments[arguments.length - 1];
+        var args = Array.prototype.slice.call(arguments, 0, -1);
+        return function () {
+            return me[method].apply(me, args);
+        };
+    };
+}
 
 // new operator for a View
 exports.createImpl = function (opt) {
@@ -20,7 +27,7 @@ exports.createImpl = function (opt) {
 }
 
 // Setters
-exports.setCenterImpl = p.effize("setCenter");
+exports.setCenterImpl = effize("setCenter");
 
 // Getters
-exports.getProjectionImpl = p.effize("getProjection");
+exports.getProjectionImpl = effize("getProjection");
