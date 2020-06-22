@@ -25,7 +25,7 @@ var oli = require ('ol/interaction');
 //var p = require ('./src/OpenLayers/FFI.js');
 //const { SelectEvent } = require('ol/interaction/Select');
 
-functioneffgetfield (field) {
+function effgetfield (field) {
     return function (self) {
         return function () {
             return self[field];
