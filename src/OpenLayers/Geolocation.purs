@@ -38,15 +38,12 @@ module OpenLayers.Geolocation (
 import Prelude
 
 -- Data imports
-import Data.Nullable (Nullable, toMaybe)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried
   ( Fn1
   , Fn2
-  , Fn3
   , runFn1
-  , runFn2
-  , runFn3)
+  , runFn2)
 
 -- Effect imports
 import Effect (Effect)

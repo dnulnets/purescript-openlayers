@@ -13,15 +13,3 @@ exports.createImpl = function (opt) {
         return new ol.Map(opt);
     }
 }
-
-exports.addLayerImpl = function (layer, self) {
-    return function() {
-        self.addLayer(layer);
-    }
-}
-
-exports.getViewImpl = function (self) {
-    return function() {
-        return self.getView();
-    }
-}

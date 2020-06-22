@@ -13,16 +13,10 @@ module OpenLayers.Control (
     defaults
     , defaults') where
 
--- Standard import
-import Prelude
-
 -- Data imports
-import Data.Nullable (Nullable, toMaybe)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried
-  ( Fn0
-  , Fn1
-  , runFn0
+  ( Fn1
   , runFn1)
 
 -- Effect imports

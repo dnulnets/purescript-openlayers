@@ -15,11 +15,7 @@ module OpenLayers.Geom.Point (
   , create
   , create' ) where
 
--- Standard import
-import Prelude
-
 -- Data imports
-import Data.Nullable (Nullable, toMaybe, toNullable)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried (
   Fn2

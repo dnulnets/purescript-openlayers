@@ -42,6 +42,8 @@ exports.notNullOrUndefined = function (x) {
 ** setCenter pos self = runFn2 setCenterImpl pos self
 **
 */
+
+/*
 exports.effize = function (method) {
     return function () {
         var me = arguments[arguments.length - 1];
@@ -51,6 +53,7 @@ exports.effize = function (method) {
         };
     };
 }
+*/
 
 /*
 ** Example:
@@ -64,6 +67,8 @@ exports.effize = function (method) {
 ** foreign import getName :: View->Effect String
 **
 */
+
+/*
 exports.effgetfield = function(field) {
     return function (self) {
         return function () {
@@ -71,6 +76,7 @@ exports.effgetfield = function(field) {
         };
     };
 }
+*/
 
 /*
 ** Example:
@@ -84,6 +90,8 @@ exports.effgetfield = function(field) {
 ** foreign import setName :: String->View->Effect Unit
 **
 */
+
+/*
 exports.effsetfield = function(field) {
     return function (value) {
         return function (self) {
@@ -93,3 +101,4 @@ exports.effsetfield = function(field) {
         };
     };
 }
+*/

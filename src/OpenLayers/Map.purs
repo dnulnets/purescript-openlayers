@@ -23,12 +23,9 @@ module OpenLayers.Map (
 import Prelude
 
 -- Data imports
-import Data.Nullable (Nullable, toMaybe)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried
-  ( Fn0
-  , Fn1
-  , runFn0
+  ( Fn1
   , runFn1)
 
 -- Effect imports
@@ -36,8 +33,6 @@ import Effect (Effect)
 
 -- Openlayers
 import OpenLayers.FFI as FFI
-import OpenLayers.View as View
-import OpenLayers.Layer.Base as Base
 import OpenLayers.PluggableMap (
   PluggableMap
   , addInteraction

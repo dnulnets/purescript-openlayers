@@ -14,29 +14,6 @@ exports.createImpl = function (opt) {
     }
 }
 
-
-exports.onImpl = function (event, f, self) {
-    return function () {
-        return self.on (event, function(e) {
-            f(e)();
-        });
-    }    
-}
-
-exports.onceImpl = function (event, f, self) {
-    return function () {
-        return self.once (event, function(e) {
-            f(e)();
-        });
-    }    
-}
-
-exports.unImpl = function (event, key, self) {
-    return function () {
-        return self.un (event, key);
-    }    
-}
-
 exports.getAccuracyGeometryImpl = function (self) {
     return function () {
         return self.getAccuracyGeometry();

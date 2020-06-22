@@ -23,7 +23,6 @@ module OpenLayers.Proj (
 import Prelude
 
 -- Data imports
-import Data.Nullable (Nullable, toNullable)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried
   ( Fn2

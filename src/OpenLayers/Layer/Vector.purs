@@ -23,7 +23,7 @@ module OpenLayers.Layer.Vector (
 import Prelude
 
 -- Data imports
-import Data.Nullable (Nullable, toMaybe, toNullable)
+import Data.Nullable (Nullable, toNullable)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried
   ( Fn1

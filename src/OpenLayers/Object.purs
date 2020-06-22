@@ -21,17 +21,14 @@ module OpenLayers.Object (
 
 -- Standard import
 import Prelude
-import Foreign
+
+import Foreign (Foreign, isNull, isUndefined, unsafeFromForeign)
 
 -- Data imports
-import Data.Nullable (Nullable, toMaybe)
 import Data.Maybe (Maybe(..))
-import Data.Function.Uncurried
-  ( Fn1
-  , Fn2
-
-  , runFn1
-  , runFn2)
+import Data.Function.Uncurried (
+    Fn2
+    , runFn2)
 
 -- Effect imports
 import Effect (Effect)

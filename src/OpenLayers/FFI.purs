@@ -12,22 +12,11 @@ module OpenLayers.FFI (
     , toUndefined
     , toMaybe) where
 
--- Standard import
-import Prelude
-
 -- Data imports
-import Data.Nullable (Nullable, toMaybe, toNullable)
 import Data.Maybe (Maybe(..), maybe)
 import Data.Function.Uncurried
-  ( Fn1
-  , Fn2
-  , Fn3
-  , runFn1
-  , runFn2
+  (Fn3
   , runFn3)
-
--- Effect imports
-import Effect (Effect)
 
 --
 -- Foreign data types

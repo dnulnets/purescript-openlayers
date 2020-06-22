@@ -17,10 +17,7 @@ module OpenLayers.Geom.Polygon (
 
   , RawPolygon ) where
 
-import Prelude
-
 -- Data imports
-import Data.Nullable (Nullable, toMaybe, toNullable)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried (
   Fn2

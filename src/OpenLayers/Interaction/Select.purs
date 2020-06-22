@@ -32,13 +32,10 @@ module OpenLayers.Interaction.Select
 import Prelude
 
 -- Data imports
-import Data.Nullable (Nullable, toNullable)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried (
   Fn1
-  , Fn3
-  , runFn1
-  , runFn3)
+  , runFn1)
 
 -- Effect imports
 import Effect (Effect)

@@ -22,12 +22,8 @@ module OpenLayers.Observable (
 import Prelude
 
 -- Data imports
-import Data.Nullable (Nullable, toMaybe)
-import Data.Maybe (Maybe)
 import Data.Function.Uncurried
-  ( Fn1
-    , Fn3
-    , runFn1
+  ( Fn3
     , runFn3)
 
 -- Effect imports

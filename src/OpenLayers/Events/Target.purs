@@ -10,19 +10,6 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Events.Target (Target, RawTarget) where
 
--- Standard import
-import Prelude
-
--- Data imports
-import Data.Nullable (Nullable, toMaybe)
-import Data.Maybe (Maybe)
-import Data.Function.Uncurried
-  ( Fn1
-  , runFn1)
-
--- Effect imports
-import Effect (Effect)
-
 --
 -- Foreign data types
 -- 

@@ -19,7 +19,7 @@ module OpenLayers.Style.Style (
 import Prelude
 
 -- Data imports
-import Data.Nullable (Nullable, toMaybe, toNullable)
+import Data.Nullable (Nullable, toNullable)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried (Fn1, Fn2, runFn1, runFn2)
 

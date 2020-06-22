@@ -15,11 +15,7 @@ module OpenLayers.Style.Fill (
   , create'
   ) where
 
--- Standard import
-import Prelude
-
 -- Data imports
-import Data.Nullable (Nullable, toMaybe)
 import Data.Maybe (Maybe)
 import Data.Function.Uncurried
   ( Fn1
