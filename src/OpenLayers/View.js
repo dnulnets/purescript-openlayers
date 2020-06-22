@@ -8,7 +8,7 @@
 // Get hold of the OpenLayer types and functions
 var ol  = require ('ol');
 
-effize = function (method) {
+function effize (method) {
     return function () {
         var me = arguments[arguments.length - 1];
         var args = Array.prototype.slice.call(arguments, 0, -1);
