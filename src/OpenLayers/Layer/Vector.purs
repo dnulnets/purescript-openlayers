@@ -1,8 +1,14 @@
 -- |
--- | The OpenLayers Vector module
+-- | The OpenLayers Vector module, a purescript FFI mapping. It also
+-- | reexports functions based on the `Vector` inheritance structure.
 -- |
--- | Written by Tomas Stenlund, Sundsvall, Sweden (c) 2020
+-- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
+-- | Functions, types or constants not part of the OpenLayers API or have
+-- | a different semantics are documented in this module, otherwise they
+-- | are documented in the OpenLayers API documentation.
+-- |
+-- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Layer.Vector (
   Vector
   , Style(..)
@@ -37,6 +43,15 @@ import OpenLayers.FFI as FFI
 --
 -- Our own data types
 --
+
+-- |The `Style` used by the `Vector` layer to determine how to render a `Feature`
+-- |if it does not have a style.
+-- |
+-- | `Style style` is a style for all features.
+-- |
+-- | `StyleFunction fn` is a function that returns a style for a specific feature.
+-- |
+-- | `StyleArray style` is an array of styles for all features.
 data Style =  Style Style.Style
             | StyleFunction (Feature.Feature->Number->Effect (Maybe Style.Style))
             | StyleArray (Array Style.Style)
@@ -51,9 +66,11 @@ type Vector = BaseVectorLayer.BaseVectorLayer RawVector
 --
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect Vector)
 
+-- |Creates a new `Tile`, see `new Tile(r)` in the OpenLayers API documentation.
 create :: forall r . Maybe {|r} -> Effect Vector
 create o = runFn1 createImpl (FFI.toNullable o)
 
+-- |Creates a new `Tile` with defaults, see `new Tile()` in the OpenLayers API documentation.
 create' :: Effect Vector
 create' = runFn1 createImpl FFI.undefined
 

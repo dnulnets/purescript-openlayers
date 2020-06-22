@@ -1,8 +1,14 @@
 -- |
--- | The OpenLayers PluggableMap module
+-- | The OpenLayers PluggableMap module, a purescript FFI mapping. It also
+-- | reexports functions based on the `PluggableMap` inheritance structure.
 -- |
--- | Written by Tomas Stenlund, Sundsvall, Sweden (c) 2020
+-- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
+-- | Functions, types or constants not part of the OpenLayers API or have
+-- | a different semantics are documented in this module, otherwise they
+-- | are documented in the OpenLayers API documentation.
+-- |
+-- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.PluggableMap (
   PluggableMap
   , RawPluggableMap
@@ -74,8 +80,11 @@ getView o = toMaybe <$> runFn1 getViewImpl o
 
 foreign import setTargetImpl :: forall m . Fn2 (FFI.NullableOrUndefined String) (PluggableMap m) (Effect Unit)
 
+-- |Sets the rendering target of the `PluggableMap`, the function is currently only implemented for
+-- |the id of the HTML element and a `clearTarget` to remove it. See the OpenLayers API documentation.
 setTarget::forall m . Maybe String -> PluggableMap m -> Effect Unit
 setTarget s self = runFn2 setTargetImpl (FFI.toNullable s) self
 
+-- |Clears the current target, see `setTarget` of the `PluggableMap` in the OpenLayers API documentation.
 clearTarget::forall m . PluggableMap m -> Effect Unit
 clearTarget self = runFn2 setTargetImpl FFI.undefined self

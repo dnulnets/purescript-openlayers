@@ -1,8 +1,14 @@
 -- |
--- | The OpenLayers Tile module
+-- | The OpenLayers Tile module,, a purescript FFI mapping. It also
+-- | reexports functions based on the `Tile` inheritance structure.
 -- |
--- | Written by Tomas Stenlund, Sundsvall, Sweden (c) 2020
+-- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
+-- | Functions, types or constants not part of the OpenLayers API or have
+-- | a different semantics are documented in this module, otherwise they
+-- | are documented in the OpenLayers API documentation.
+-- |
+-- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Layer.Tile (
   Tile
   , RawTile
@@ -38,8 +44,10 @@ type Tile = BaseTileLayer.BaseTileLayer RawTile
 --
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect Tile)
 
+-- |Creates a `Tile`, see `new Tile(r)` in the OpenLayers API documentation.
 create :: forall r . Maybe {|r} -> Effect Tile
 create o = runFn1 createImpl (FFI.toNullable o)
 
+-- |Creates a `Tile` with defaults, see `new Tile()`  in the OpenLayers API documentation
 create' :: Effect Tile
 create' = runFn1 createImpl FFI.undefined

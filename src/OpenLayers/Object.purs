@@ -1,8 +1,13 @@
+-- | The OpenLayers Object module, a purescript FFI mapping. It also
+-- | reexports functions based on the `Object` inheritance structure.
 -- |
--- | The OpenLayers Object module
+-- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
--- | Written by Tomas Stenlund, Sundsvall, Sweden (c) 2020
+-- | Functions, types or constants not part of the OpenLayers API or have
+-- | a different semantics are documented in this module, otherwise they
+-- | are documented in the OpenLayers API documentation.
 -- |
+-- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Object (
     module Observable
     , module Event
@@ -51,6 +56,9 @@ type ObjectEvent a = Event.BaseEvent a
 -- TODO: This is a really ugly version of a get, no type safety :-(
 -- Really, really, really need to fix this!!!!
 foreign import getImpl :: forall a . Fn2 String (BaseObject a) (Effect Foreign)
+
+-- |Take care, this has no type safety because of the `forall v` and
+-- |I use `unsafeFromForeign`. It will be reworked.
 get :: forall o v . String -> BaseObject o -> Effect (Maybe v)
 get n self = do
     f <- runFn2 getImpl n self

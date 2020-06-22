@@ -1,8 +1,14 @@
 -- |
--- | The OpenLayers Text module
+-- | The OpenLayers Text module, a purescript FFI mapping. It also
+-- | reexports functions based on the `Text` inheritance structure.
 -- |
--- | Written by Tomas Stenlund, Sundsvall, Sweden (c) 2020
+-- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
+-- | Functions, types or constants not part of the OpenLayers API or have
+-- | a different semantics are documented in this module, otherwise they
+-- | are documented in the OpenLayers API documentation.
+-- |
+-- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Style.Text (
   Text
   , create
@@ -35,8 +41,10 @@ foreign import data Text :: Type
 --
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect Text)
 
+-- |Creates a `Text`, see `new text(r)` in the OpenLayers API documentation.
 create :: forall r . Maybe {|r} -> Effect Text
 create o = runFn1 createImpl (FFI.toNullable o)
 
+-- |Creates a `Text` with defaults, see `new Text()` in the OpenLayers API documentation.
 create' :: Effect Text
 create' = runFn1 createImpl FFI.undefined

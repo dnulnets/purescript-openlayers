@@ -1,8 +1,13 @@
+-- | The OpenLayers Event module, a purescript FFI mapping. It also
+-- | reexports functions based on the `Event` inheritance structure.
 -- |
--- | The OpenLayers Event module
+-- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
--- | Written by Tomas Stenlund, Sundsvall, Sweden (c) 2020
+-- | Functions, types or constants not part of the OpenLayers API or have
+-- | a different semantics are documented in this module, otherwise they
+-- | are documented in the OpenLayers API documentation.
 -- |
+-- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Events.Event (
     BaseEvent
     , RawBaseEvent) where

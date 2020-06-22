@@ -1,8 +1,14 @@
 -- |
--- | The OpenLayers Intersecto Select module
+-- | The OpenLayers Select module, a purescript FFI mapping. It also
+-- | reexports functions based on the `Select` inheritance structure.
 -- |
--- | Written by Tomas Stenlund, Sundsvall, Sweden (c) 2020
+-- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
+-- | Functions, types or constants not part of the OpenLayers API or have
+-- | a different semantics are documented in this module, otherwise they
+-- | are documented in the OpenLayers API documentation.
+-- |
+-- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Interaction.Select
   ( module Interaction
     , module Event
@@ -65,15 +71,19 @@ foreign import getDeselected :: SelectEvent->Effect (Array Feature.Feature)
 --
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined  {|r}) (Effect Select)
 
+-- |Creates a `Select` object, see `new Select` in the OpenLayers API documentation.
 create :: forall r . Maybe {|r} -> Effect Select
 create opts = runFn1 createImpl (FFI.toNullable opts)
 
+-- |Creates a `Select` object with defaults, see `new Select` in the OpenLayers API documentation.
 create' :: Effect Select
 create' = runFn1 createImpl FFI.undefined
 
 --
 -- All on functions
 
+-- |Registers a listener function for the select event, see `on` for the Select object
+-- |in the OpenLayers API documentation.
 onSelect :: Events.ListenerFunction SelectEvent -> Select -> Effect Events.EventsKey
 onSelect = Observable.on "select"
 
@@ -81,5 +91,7 @@ onSelect = Observable.on "select"
 -- All un functions
 --
 
+-- |Unregisters a listener function for the select event, see `un` for the Select object
+-- |in the Openlayers API documentation.
 unSelect :: Events.EventsKey -> Select -> Effect Unit
 unSelect key self = Observable.un "select" key self

@@ -1,8 +1,13 @@
+-- | The OpenLayers Control module, a purescript FFI mapping. It also
+-- | reexports functions based on the `Control` inheritance structure.
 -- |
--- | The OpenLayers Control module
+-- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
--- | Written by Tomas Stenlund, Sundsvall, Sweden (c) 2020
+-- | Functions, types or constants not part of the OpenLayers API or have
+-- | a different semantics are documented in this module, otherwise they
+-- | are documented in the OpenLayers API documentation.
 -- |
+-- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Control.Control (
     module Object
 
@@ -38,5 +43,6 @@ type Control = Object.BaseObject RawControl
 --
 foreign import createImpl :: forall r . Fn1 {|r} (Effect Control)
 
+-- |Creates a new Control, see `new Control` in the Openlayers API documentation.
 create :: forall r . {|r} -> Effect Control
 create o = runFn1 createImpl o
