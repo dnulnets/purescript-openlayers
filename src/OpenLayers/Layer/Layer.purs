@@ -1,6 +1,6 @@
 -- |
--- | The OpenLayers BaseTileLayers module,, a purescript FFI mapping. It also
--- | reexports functions based on the `BaseTileLayers` inheritance structure.
+-- | The OpenLayers Layer module, a purescript FFI mapping. It also
+-- | reexports functions based on the `Layer` inheritance structure.
 -- |
 -- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
@@ -9,18 +9,20 @@
 -- | are documented in the OpenLayers API documentation.
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
-module OpenLayers.Layer.BaseTileLayer ( BaseTileLayer, RawBaseTileLayer ) where
+module OpenLayers.Layer.Layer (
+  Layer
+  , RawLayer ) where
 
--- Own imports
+-- Our own imports
 import OpenLayers.Layer.Base as Base
 
 --
 -- Foreign data types
 -- 
-foreign import data RawBaseTileLayer :: Type -> Type
+foreign import data RawLayer :: Type -> Type
 
 -- |The actual abstract basetype for geometry
-type BaseTileLayer a = Base.Base (RawBaseTileLayer a)
+type Layer a = Base.Base (RawLayer a)
 
 --
 -- Function mapping

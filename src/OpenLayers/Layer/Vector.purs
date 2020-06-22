@@ -35,7 +35,7 @@ import Data.Function.Uncurried
 import Effect (Effect)
 
 -- Our own imports
-import OpenLayers.Layer.BaseVectorLayer as BaseVectorLayer
+import OpenLayers.Layer.BaseVector as BaseVector
 import OpenLayers.Style.Style as Style
 import OpenLayers.Feature as Feature
 import OpenLayers.FFI as FFI
@@ -59,7 +59,7 @@ data Style =  Style Style.Style
 -- Foreign data types
 -- 
 foreign import data RawVector :: Type
-type Vector = BaseVectorLayer.BaseVectorLayer RawVector
+type Vector = BaseVector.BaseVectorLayer RawVector
 
 --
 -- Function mapping

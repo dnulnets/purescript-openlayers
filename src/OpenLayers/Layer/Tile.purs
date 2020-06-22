@@ -30,14 +30,14 @@ import Data.Function.Uncurried
 import Effect (Effect)
 
 -- Import own modules
-import OpenLayers.Layer.BaseTileLayer as BaseTileLayer
+import OpenLayers.Layer.BaseTile as BaseTile
 import OpenLayers.FFI as FFI
 
 --
 -- Foreign data types
 -- 
 foreign import data RawTile :: Type
-type Tile = BaseTileLayer.BaseTileLayer RawTile
+type Tile = BaseTile.BaseTileLayer RawTile
 
 --
 -- Function mapping
