@@ -45,5 +45,5 @@ exports.createImpl = function (opts) {
 //
 // SelectEvent
 //
-exports.getSelected=p.effgetfield("selected");
-exports.getDeselected=p.effgetfield("deselected");
+exports.getSelected=effgetfield("selected");
+exports.getDeselected=effgetfield("deselected");
