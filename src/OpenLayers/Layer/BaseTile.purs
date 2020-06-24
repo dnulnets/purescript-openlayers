@@ -9,10 +9,14 @@
 -- | are documented in the OpenLayers API documentation.
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
-module OpenLayers.Layer.BaseTile ( BaseTileLayer, RawBaseTileLayer ) where
+module OpenLayers.Layer.BaseTile (
+        module Layer
+
+        , BaseTileLayer
+        , RawBaseTileLayer ) where
 
 -- Own imports
-import OpenLayers.Layer.Layer as Layer
+import OpenLayers.Layer.Layer (Base, Layer, RawBase, RawLayer, setSource) as Layer
 
 --
 -- Foreign data types

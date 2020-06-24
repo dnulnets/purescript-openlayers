@@ -42,6 +42,12 @@ exports.createImpl = function (opts) {
     }
 }
 
+exports.getFeaturesImpl = function (self) {
+    return function() {
+        return self.getFeatures();
+    }
+}
+
 //
 // SelectEvent
 //

@@ -10,11 +10,26 @@
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Layer.Layer (
-  Layer
-  , RawLayer ) where
+  module Base
+
+  , Layer
+  , RawLayer,
+  
+  setSource ) where
+
+import Prelude
+
+-- Standard imports
+import Data.Function.Uncurried
+  ( Fn2
+  , runFn2)
+
+-- Import Effects
+import Effect (Effect)
 
 -- Our own imports
-import OpenLayers.Layer.Base as Base
+import OpenLayers.Layer.Base (Base, RawBase) as Base
+import OpenLayers.Source.Source as Source
 
 --
 -- Foreign data types
@@ -27,3 +42,7 @@ type Layer a = Base.Base (RawLayer a)
 --
 -- Function mapping
 --
+
+foreign import setSourceImpl::forall s l . Fn2 (Source.Source s) (Layer l) (Effect Unit)
+setSource::forall s l . Source.Source s->Layer l->Effect Unit
+setSource src self = runFn2 setSourceImpl src self 

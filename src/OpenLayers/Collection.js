@@ -18,3 +18,11 @@ exports.createImpl = function (arr, opt) {
 exports.extendImpl = function (arr, self) {
     return self.extend (arr);
 }
+
+exports.getLengthImpl = function (self) {
+    return self.getLength();
+}
+
+exports.itemImpl = function (i, self) {
+    return self.item(i);
+}

@@ -16,7 +16,9 @@ module OpenLayers.Collection (
     , create
     , create'
 
-    , extend) where
+    , extend
+    , getLength
+    , item) where
 
 -- Data imports
 import Data.Maybe (Maybe)
@@ -55,3 +57,17 @@ foreign import extendImpl :: forall t . Fn2 (Array t) (Collection t) (Collection
 
 extend :: forall t . Array t -> Collection t -> Collection t
 extend a c = runFn2 extendImpl a c
+
+foreign import itemImpl :: forall t . Fn2 Int (Collection t) t
+
+item::forall t . Int->Collection t->t
+item i self = runFn2 itemImpl i self
+
+--
+-- Getters
+--
+
+foreign import getLengthImpl :: forall t . Fn1 (Collection t) Int
+
+getLength:: forall t . Collection t -> Int
+getLength self = runFn1 getLengthImpl self

@@ -10,7 +10,10 @@
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Source.Vector (
-  Vector
+  module Source
+
+  , Vector
+  , RawVector
   , create
   , create') where
 
@@ -25,11 +28,13 @@ import Effect (Effect)
 
 -- Own imports
 import OpenLayers.FFI as FFI
+import OpenLayers.Source.Source (BaseObject, RawSource, Source, get) as Source
 
 --
 -- Foreign data types
 -- 
-foreign import data Vector :: Type
+foreign import data RawVector :: Type
+type Vector = Source.Source (RawVector)
 
 --
 -- Function mapping

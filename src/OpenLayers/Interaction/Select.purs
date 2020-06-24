@@ -25,6 +25,7 @@ module OpenLayers.Interaction.Select
     , RawSelect
     , create
     , create'
+    , getFeatures
     , onSelect
     , unSelect ) where
 
@@ -47,6 +48,7 @@ import OpenLayers.Interaction.Interaction (Interaction) as Interaction
 import OpenLayers.Events (EventsKey, ListenerFunction) as Events
 import OpenLayers.Events.Event (BaseEvent) as Event
 import OpenLayers.Observable (on, un) as Observable
+import OpenLayers.Collection as Collection
 
 --
 -- Foreign data types
@@ -75,6 +77,14 @@ create opts = runFn1 createImpl (FFI.toNullable opts)
 -- |Creates a `Select` object with defaults, see `new Select` in the OpenLayers API documentation.
 create' :: Effect Select
 create' = runFn1 createImpl FFI.undefined
+
+--
+-- getters
+--
+foreign import getFeaturesImpl :: Fn1 Select (Effect (Collection.Collection Feature.Feature))
+
+getFeatures::Select->Effect (Collection.Collection Feature.Feature)
+getFeatures self = runFn1 getFeaturesImpl self
 
 --
 -- All on functions

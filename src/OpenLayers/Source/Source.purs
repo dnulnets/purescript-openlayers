@@ -1,6 +1,6 @@
 -- |
--- | The OpenLayers BaseVector module, a purescript FFI mapping. It also
--- | reexports functions based on the `BaseVector` inheritance structure.
+-- | The OpenLayers Source module, a purescript FFI mapping. It also
+-- | reexports functions based on the `Source` inheritance structure.
 -- |
 -- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
@@ -9,22 +9,22 @@
 -- | are documented in the OpenLayers API documentation.
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
-module OpenLayers.Layer.BaseVector (
-  module Layer
+module OpenLayers.Source.Source (
+  module Object
 
-  , BaseVectorLayer
-  , RawBaseVectorLayer ) where
+  , Source
+  , RawSource ) where
 
 -- Our own imports
-import OpenLayers.Layer.Layer (Base, Layer, RawBase, RawLayer, setSource) as Layer
+import OpenLayers.Object (BaseObject, get) as Object
 
 --
 -- Foreign data types
 -- 
-foreign import data RawBaseVectorLayer :: Type -> Type
+foreign import data RawSource :: Type -> Type
 
 -- |The actual abstract basetype for geometry
-type BaseVectorLayer a = Layer.Layer (RawBaseVectorLayer a)
+type Source a = Object.BaseObject (RawSource a)
 
 --
 -- Function mapping

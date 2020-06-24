@@ -10,7 +10,10 @@
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Source.OSM (
-  OSM
+  module Source
+
+  , OSM
+  , RawOSM
   , create
   , create') where
 
@@ -25,11 +28,13 @@ import Effect (Effect)
 
 -- Import own stuff
 import OpenLayers.FFI as FFI
+import OpenLayers.Source.Source (BaseObject, RawSource, Source, get) as Source
 
 --
 -- Foreign data types
 -- 
-foreign import data OSM :: Type
+foreign import data RawOSM :: Type
+type OSM = Source.Source (RawOSM)
 
 --
 -- Function mapping

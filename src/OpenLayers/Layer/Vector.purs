@@ -10,7 +10,9 @@
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Layer.Vector (
-  Vector
+  module BaseVector
+
+  , Vector
   , Style(..)
   , RawVector
 
@@ -35,7 +37,7 @@ import Data.Function.Uncurried
 import Effect (Effect)
 
 -- Our own imports
-import OpenLayers.Layer.BaseVector as BaseVector
+import OpenLayers.Layer.BaseVector (Base, BaseVectorLayer, Layer, RawBase, RawBaseVectorLayer, RawLayer, setSource) as BaseVector
 import OpenLayers.Style.Style as Style
 import OpenLayers.Feature as Feature
 import OpenLayers.FFI as FFI
