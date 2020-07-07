@@ -18,11 +18,13 @@ module OpenLayers.Layer.Vector (
 
   , create
   , create'
+  , VectorOptions(..)
   
   , setStyle ) where
 
 -- Standard import
 import Prelude
+import Prim.Row (class Union)
 
 -- Data imports
 import Data.Nullable (Nullable, toNullable)
@@ -37,7 +39,8 @@ import Data.Function.Uncurried
 import Effect (Effect)
 
 -- Our own imports
-import OpenLayers.Layer.BaseVector (Base, BaseVectorLayer, Layer, RawBase, RawBaseVectorLayer, RawLayer, setSource) as BaseVector
+import OpenLayers.Layer.BaseVector (BaseLayer, BaseVectorLayer, Layer, RawBaseLayer, RawBaseVectorLayer, RawLayer, setSource) as BaseVector
+import OpenLayers.Source.Vector as Vector
 import OpenLayers.Style.Style as Style
 import OpenLayers.Feature as Feature
 import OpenLayers.FFI as FFI
@@ -66,11 +69,14 @@ type Vector = BaseVector.BaseVectorLayer RawVector
 --
 -- Function mapping
 --
-foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect Vector)
+foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Vector)
+
+-- |The options for the creation of the Vector. See the `options` parameter in `new Vector(options)` in the OpenLayers API documentation.
+type VectorOptions = ( source :: Vector.VectorSource )
 
 -- |Creates a new `Tile`, see `new Tile(r)` in the OpenLayers API documentation.
-create :: forall r . Maybe {|r} -> Effect Vector
-create o = runFn1 createImpl (FFI.toNullable o)
+create :: forall l r . Union l r VectorOptions => Record l -> Effect Vector
+create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 -- |Creates a new `Tile` with defaults, see `new Tile()` in the OpenLayers API documentation.
 create' :: Effect Vector

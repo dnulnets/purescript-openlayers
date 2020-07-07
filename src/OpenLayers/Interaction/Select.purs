@@ -25,15 +25,16 @@ module OpenLayers.Interaction.Select
     , RawSelect
     , create
     , create'
+    , SelectOptions(..)
     , getFeatures
     , onSelect
     , unSelect ) where
 
 -- Standard import
 import Prelude
+import Prim.Row (class Union)
 
 -- Data imports
-import Data.Maybe (Maybe)
 import Data.Function.Uncurried (
   Fn1
   , runFn1)
@@ -47,8 +48,10 @@ import OpenLayers.Feature as Feature
 import OpenLayers.Interaction.Interaction (Interaction) as Interaction
 import OpenLayers.Events (EventsKey, ListenerFunction) as Events
 import OpenLayers.Events.Event (BaseEvent) as Event
+import OpenLayers.Events.Condition as Condition
 import OpenLayers.Observable (on, un) as Observable
 import OpenLayers.Collection as Collection
+import OpenLayers.Layer.Layer as Layer
 
 --
 -- Foreign data types
@@ -68,11 +71,16 @@ foreign import getDeselected :: SelectEvent->Effect (Array Feature.Feature)
 --
 -- Function mapping Select
 --
-foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined  {|r}) (Effect Select)
+foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined  (Record r)) (Effect Select)
+
+-- |The options for the creation of the Select. See the `options` parameter in `new Select(options)` in the OpenLayers API documentation.
+type SelectOptions l = (multi::Boolean
+                      , layers:: Array (Layer.Layer l)
+                      , toggleCondition:: Condition.Condition)
 
 -- |Creates a `Select` object, see `new Select` in the OpenLayers API documentation.
-create :: forall r . Maybe {|r} -> Effect Select
-create opts = runFn1 createImpl (FFI.toNullable opts)
+create :: forall l r layer . Union l r (SelectOptions layer) => Record l -> Effect Select
+create opts = runFn1 createImpl (FFI.notNullOrUndefined opts)
 
 -- |Creates a `Select` object with defaults, see `new Select` in the OpenLayers API documentation.
 create' :: Effect Select

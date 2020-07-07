@@ -16,7 +16,7 @@ module OpenLayers.Layer.BaseTile (
         , RawBaseTileLayer ) where
 
 -- Own imports
-import OpenLayers.Layer.Layer (Base, Layer, RawBase, RawLayer, setSource) as Layer
+import OpenLayers.Layer.Layer (BaseLayer, Layer, RawBaseLayer, RawLayer, setSource) as Layer
 
 --
 -- Foreign data types

@@ -18,5 +18,7 @@ import OpenLayers.Events.Event (BaseEvent) as Event
 --
 -- Foreign data types
 -- 
+
+-- |The FFI version of the MapEvent. For internal use only!
 foreign import data RawMapEvent :: Type -> Type
 type MapEvent a = Event.BaseEvent (RawMapEvent a)

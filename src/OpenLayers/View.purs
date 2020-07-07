@@ -11,9 +11,9 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.View (
   View
+  , ViewOption(..)
 
   , create
-  , create'
 
   , setCenter
 
@@ -21,6 +21,7 @@ module OpenLayers.View (
 
 -- Standard import
 import Prelude
+import Prim.Row (class Union)
 
 -- Data imports
 import Data.Nullable (Nullable, toMaybe)
@@ -36,24 +37,26 @@ import Effect (Effect)
 
 -- Our own imports
 import OpenLayers.FFI as FFI
+import OpenLayers.Proj as Proj
 
 --
 -- Foreign data types
 -- 
+
 foreign import data View :: Type
 
---
+-- |The options for the creation of the View. See the `options` parameter in `new View(options)` in the OpenLayers API documentation.
+type ViewOption = (projection :: Proj.SRS
+                    , center  :: Array Number
+                    , zoom    :: Number)
+  --
 -- Function mapping
 --
-foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect View)
+foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect View)
 
 -- |Creates a `View`, see `new View(r)` in the OpenLayers API documentation.
-create :: forall r . Maybe {|r} -> Effect View
-create o = runFn1 createImpl (FFI.toNullable o)
-
--- |Creates a `View` with defaults, see `new View()` in the OpenLayers API documentation.
-create' :: Effect View
-create' = runFn1 createImpl FFI.undefined
+create :: forall l r . Union l r ViewOption => Record l -> Effect View
+create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 --
 -- set functions

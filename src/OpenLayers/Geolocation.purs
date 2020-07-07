@@ -17,6 +17,8 @@ module OpenLayers.Geolocation (
     , RawGeolocation
     , create
     , create'
+    , TrackingOptions(..)
+    , GeolocationOptions(..)
 
     , setTracking
     
@@ -36,6 +38,7 @@ module OpenLayers.Geolocation (
 
 -- Standard import
 import Prelude
+import Prim.Row (class Union)
 
 -- Data imports
 import Data.Maybe (Maybe)
@@ -50,6 +53,7 @@ import Effect (Effect)
 
 -- Own imports
 import OpenLayers.FFI as FFI
+import OpenLayers.Proj as Proj
 import OpenLayers.Geom.Polygon as Polygon
 import OpenLayers.Object(BaseObject, ObjectEvent) as Object
 import OpenLayers.Observable (on, un, once) as Observable
@@ -58,18 +62,29 @@ import OpenLayers.Events.Event (BaseEvent) as Event
 
 --
 -- Foreign data types
--- 
+--
+
+-- |The FFI version of the Geolocation. For internal use only!
 foreign import data RawGeolocation :: Type
 type Geolocation = Object.BaseObject RawGeolocation
 
 --
 -- Function mapping
 --
-foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect Geolocation)
+foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Geolocation)
+
+-- |The tracking options as described in https://www.w3.org/TR/geolocation-API/#position_options_interface
+type TrackingOptions = (enableHighAccuracy::Boolean, timeout::Int, maximumage::Int)
+
+-- |The options for the creation of a Geolocation. See the `options` parameter in `new Geolocation(options)` in the OpenLayers API documentation.
+type GeolocationOptions t = (projection::Proj.SRS, trackingOptions::Record t, tracking::Boolean)
 
 -- |Creates a `Geolocation`, see `new GeoLocation(r)` in the OpenLayers API documentation.
-create :: forall r . (Maybe {|r}) -> Effect Geolocation
-create o = runFn1 createImpl (FFI.toNullable o)
+create :: forall l r tl tr . Union l r (GeolocationOptions tl)
+                              => Union tl tr TrackingOptions
+                              => Record l
+                              -> Effect Geolocation
+create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 -- |Creates a `Geolocation` with defaults, see `new Geolocation()` in the OpenLayers API documentation.
 create' :: Effect Geolocation

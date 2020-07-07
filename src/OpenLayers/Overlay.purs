@@ -11,11 +11,12 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Overlay (
   Overlay
-  , create
-  , create') where
+  , create) where
+
+-- Standard imports
+import Prim.Row (class Union)
 
 -- Data imports
-import Data.Maybe (Maybe)
 import Data.Function.Uncurried
   ( Fn1
   , runFn1)
@@ -31,15 +32,15 @@ import OpenLayers.FFI as FFI
 -- 
 foreign import data Overlay :: Type
 
+-- |The options for the creation of the Overlay. See the `options` parameter in `new Overlay(options)` in the OpenLayers API documentation.
+type OverlayOption = ()
+
 --
 -- Function mapping
 --
-foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect Overlay)
+foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Overlay)
 
 -- |Create a new `Overlay`, see `new Overlay(r)` in the OpenLayers API documentation.
-create :: forall r . Maybe {|r} -> Effect Overlay
-create o = runFn1 createImpl (FFI.toNullable o)
+create :: forall l r . Union l r OverlayOption => Record l -> Effect Overlay
+create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
--- |Create a new `Overlay`, see `new Overlay()` in the OpenLayers API documentation.
-create' :: Effect Overlay
-create' = runFn1 createImpl FFI.undefined

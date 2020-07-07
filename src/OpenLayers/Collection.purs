@@ -14,14 +14,15 @@ module OpenLayers.Collection (
     , RawCollection
 
     , create
-    , create'
 
     , extend
     , getLength
     , item) where
 
+-- Standard imports
+import Prim.Row (class Union)
+
 -- Data imports
-import Data.Maybe (Maybe)
 import Data.Function.Uncurried
   ( Fn1
   , Fn2
@@ -37,21 +38,21 @@ import OpenLayers.FFI as FFI
 --
 -- Foreign data types
 -- 
+
+-- |The FFI version of the Collection. For internal use only!
 foreign import data RawCollection :: Type->Type
 type Collection a = RawCollection a
 
+-- |The options for the creation of the Collection. See the `options` parameter in `new Collection(options)` in the OpenLayers API documentation.
+type CollectionOption = (unique::Boolean)
 --
 -- Function mapping
 --
-foreign import createImpl :: forall r t . Fn1 (FFI.NullableOrUndefined {|r}) (Effect (Collection t))
+foreign import createImpl :: forall r t . Fn2 (Array t) (FFI.NullableOrUndefined (Record r)) (Effect (Collection t))
 
 -- |Creates a `Collection`, see `new Collection(r)` in the OpenLayers API documentation.
-create :: forall r t . Maybe {|r} -> Effect (Collection t)
-create o = runFn1 createImpl (FFI.toNullable o)
-
--- |Creates a `Collection` with defaults, see `new Collection()` in the Openlayers API documentation.
-create' :: forall t . Effect (Collection t)
-create' = runFn1 createImpl FFI.undefined
+create :: forall l r t . Union l r CollectionOption => Array t -> Record l -> Effect (Collection t)
+create a o = runFn2 createImpl a (FFI.notNullOrUndefined o)
 
 foreign import extendImpl :: forall t . Fn2 (Array t) (Collection t) (Collection t)
 

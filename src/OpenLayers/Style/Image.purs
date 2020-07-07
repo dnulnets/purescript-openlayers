@@ -1,6 +1,6 @@
 -- |
--- | The OpenLayers Base module,, a purescript FFI mapping. It also
--- | reexports functions based on the `Base` inheritance structure.
+-- | The OpenLayers Image module, a purescript FFI mapping. It also
+-- | reexports functions based on the `Source` inheritance structure.
 -- |
 -- | All functions and types of the OpenLayer API are currently not mapped.
 -- |
@@ -9,15 +9,17 @@
 -- | are documented in the OpenLayers API documentation.
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
-module OpenLayers.Layer.Base ( BaseLayer, RawBaseLayer ) where
+module OpenLayers.Style.Image (
+    ImageStyle
+    , RawImageStyle) where
 
 --
 -- Foreign data types
 -- 
-foreign import data RawBaseLayer :: Type -> Type
+foreign import data RawImageStyle :: Type -> Type
 
 -- |The actual abstract basetype for geometry
-type BaseLayer a = RawBaseLayer a
+type ImageStyle a = RawImageStyle a
 
 --
 -- Function mapping

@@ -11,6 +11,7 @@ You can edit this file as you like.
   , "maybe"
   , "nullable"
   , "psci-support"
+  , "web-dom"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

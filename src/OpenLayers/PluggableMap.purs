@@ -46,7 +46,9 @@ import OpenLayers.Interaction.Interaction as Interaction
 
 --
 -- Foreign data types
--- 
+--
+
+-- |The FFI version of the Map. For internal use only!
 foreign import data RawPluggableMap :: Type->Type
 type PluggableMap a = RawPluggableMap a
 --
@@ -56,9 +58,9 @@ type PluggableMap a = RawPluggableMap a
 --
 -- add functions
 --
-foreign import addLayerImpl :: forall l m . Fn2 (Base.Base l) (PluggableMap m) (Effect Unit)
+foreign import addLayerImpl :: forall l m . Fn2 (Base.BaseLayer l) (PluggableMap m) (Effect Unit)
 
-addLayer :: forall l m . Base.Base l -> PluggableMap m -> Effect Unit
+addLayer :: forall l m . Base.BaseLayer l -> PluggableMap m -> Effect Unit
 addLayer o = runFn2 addLayerImpl o
 
 foreign import addInteractionImpl :: forall i m . Fn2 (Interaction.Interaction i) (PluggableMap m) (Effect Unit)
@@ -81,7 +83,7 @@ getView o = toMaybe <$> runFn1 getViewImpl o
 foreign import setTargetImpl :: forall m . Fn2 (FFI.NullableOrUndefined String) (PluggableMap m) (Effect Unit)
 
 -- |Sets the rendering target of the `PluggableMap`, the function is currently only implemented for
--- |the id of the HTML element and a `clearTarget` to remove it. See the OpenLayers API documentation.
+-- |the id of the HTML element and a `clearTarget` to remove it. See `setTarget` in the OpenLayers API documentation.
 setTarget::forall m . Maybe String -> PluggableMap m -> Effect Unit
 setTarget s self = runFn2 setTargetImpl (FFI.toNullable s) self
 

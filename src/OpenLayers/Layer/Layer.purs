@@ -28,7 +28,7 @@ import Data.Function.Uncurried
 import Effect (Effect)
 
 -- Our own imports
-import OpenLayers.Layer.Base (Base, RawBase) as Base
+import OpenLayers.Layer.Base (BaseLayer, RawBaseLayer) as Base
 import OpenLayers.Source.Source as Source
 
 --
@@ -37,7 +37,7 @@ import OpenLayers.Source.Source as Source
 foreign import data RawLayer :: Type -> Type
 
 -- |The actual abstract basetype for geometry
-type Layer a = Base.Base (RawLayer a)
+type Layer a = Base.BaseLayer (RawLayer a)
 
 --
 -- Function mapping

@@ -12,15 +12,16 @@
 module OpenLayers.Map (
   module PluggableMap
   , Map
+  , MapOption(..)
   , RawMap
 
   , create
-  , create'
   
   ) where
 
 -- Standard import
-import Prelude
+import Prelude (($))
+import Prim.Row (class Union)
 
 -- Data imports
 import Data.Maybe (Maybe)
@@ -33,6 +34,10 @@ import Effect (Effect)
 
 -- Openlayers
 import OpenLayers.FFI as FFI
+import OpenLayers.Layer.Base as Base
+import OpenLayers.View as View
+import OpenLayers.Control.Control as Control
+import OpenLayers.Collection as Collection
 import OpenLayers.PluggableMap (
   PluggableMap
   , addInteraction
@@ -43,17 +48,22 @@ import OpenLayers.PluggableMap (
 --
 -- Foreign data types
 -- 
+-- |The FFI version of the Map. For internal use only!
 foreign import data RawMap :: Type
+
 type Map = PluggableMap.PluggableMap RawMap
+
+-- |The options for the creation of the Map. See the `options` parameter in `new Map(options)` in the OpenLayers API documentation.
+type MapOption r = (target::String
+                    , controls::Collection.Collection Control.Control
+                    , layers::Array (Base.BaseLayer r)
+                    , view::View.View)
+
 --
 -- Function mapping
 --
-foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect Map)
+foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Map)
 
--- |Creates a `Map`, see `new Map(r)` in the OpenLayers API documentation.
-create :: forall r . Maybe {|r} -> Effect Map
+-- |Creates a `Map`, see `new Map(options)` in the OpenLayers API documentation.
+create :: forall l r layer . Union l r (MapOption layer) => Maybe (Record l) -> Effect Map
 create o = runFn1 createImpl $ FFI.toNullable o
-
--- |Creates a `Map` with defaults, see `new Map()` in the Openlayers API documentation.
-create':: Effect Map
-create' = runFn1 createImpl FFI.undefined

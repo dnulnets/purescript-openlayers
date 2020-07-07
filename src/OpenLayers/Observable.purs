@@ -37,6 +37,8 @@ import OpenLayers.Events as Events
 --
 -- Foreign data types
 -- 
+
+-- |The FFI version of the Observable. For internal use only!
 foreign import data RawObservable :: Type -> Type
 type Observable a = Target.Target (RawObservable a)
 

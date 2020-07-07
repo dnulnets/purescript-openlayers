@@ -11,10 +11,13 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Control (
     defaults
-    , defaults') where
+    , defaults'
+    , DefaultsOption(..)) where
+
+-- Imports
+import Prim.Row (class Union)
 
 -- Data imports
-import Data.Maybe (Maybe)
 import Data.Function.Uncurried
   ( Fn1
   , runFn1)
@@ -29,10 +32,13 @@ import OpenLayers.FFI as FFI
 --
 -- Function mapping
 --
-foreign import defaultsImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect (Collection.Collection Control.Control))
 
-defaults :: forall r . Maybe {|r} -> Effect (Collection.Collection Control.Control)
-defaults o = runFn1 defaultsImpl (FFI.toNullable o)
+type DefaultsOption = ()
+
+foreign import defaultsImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect (Collection.Collection Control.Control))
+
+defaults :: forall l r . Union l r DefaultsOption => Record l -> Effect (Collection.Collection Control.Control)
+defaults o = runFn1 defaultsImpl (FFI.notNullOrUndefined o)
 
 -- |Same as `defaults`, but uses the default interactions, see Openlayers API documentation.
 defaults' :: Effect (Collection.Collection Control.Control)

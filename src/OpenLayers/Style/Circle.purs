@@ -10,37 +10,51 @@
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Style.Circle (
-  Circle
+  module RegularShape
+
+  , CircleStyle
+  , RawCircleStyle
+  , CircleStyleOptions(..)
   , create
   , create'
   ) where
 
 -- Data imports
-import Data.Maybe (Maybe)
 import Data.Function.Uncurried
   ( Fn1
   , runFn1)
+
+-- Standard import
+import Prim.Row (class Union)
 
 -- Effect imports
 import Effect (Effect)
 
 -- Own imports
 import OpenLayers.FFI as FFI
+import OpenLayers.Style.Fill as Fill
+import OpenLayers.Style.Stroke as Stroke
+import OpenLayers.Style.RegularShape (ImageStyle, RawImageStyle, RawRegularShape, RegularShape) as RegularShape
 
 --
 -- Foreign data types
 -- 
-foreign import data Circle :: Type
-
+foreign import data RawCircleStyle :: Type
+type CircleStyle = RegularShape.RegularShape RawCircleStyle
 --
 -- Function mapping
 --
-foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined {|r}) (Effect Circle)
+foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect CircleStyle)
+
+-- |The options for the creation of the CircleStyle. See the `options` parameter in `new CircleStyle(options)` in the OpenLayers API documentation.
+type CircleStyleOptions = (radius :: Number
+                          , fill :: Fill.Fill
+                          , stroke :: Stroke.Stroke)
 
 -- |Creates a `Circle`, see `new Circle(r)` in the OpenLayers API documentation.
-create :: forall r . Maybe {|r} -> Effect Circle
-create r = runFn1 createImpl (FFI.toNullable r)
+create :: forall l r . Union l r CircleStyleOptions => Record l -> Effect CircleStyle
+create r = runFn1 createImpl (FFI.notNullOrUndefined r)
 
 -- |Creates a `Circle` with defaults, see `new Circle()` in the OpenLayers API documentation.
-create' :: Effect Circle
+create' :: Effect CircleStyle
 create' = runFn1 createImpl FFI.undefined

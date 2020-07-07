@@ -18,5 +18,7 @@ import OpenLayers.MapEvent (MapEvent) as MapEvent
 --
 -- Foreign data types
 -- 
+
+-- |The FFI version of the MapBrowserEvent. For internal use only!
 foreign import data RawMapBrowserEvent :: Type
 type MapBrowserEvent = MapEvent.MapEvent RawMapBrowserEvent

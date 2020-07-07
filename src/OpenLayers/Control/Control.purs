@@ -14,6 +14,7 @@ module OpenLayers.Control.Control (
     -- Control
     , Control
     , RawControl
+    , ControlOptions(..)
     , create) where
 
 -- Data imports
@@ -21,8 +22,14 @@ import Data.Function.Uncurried
   ( Fn1
   , runFn1)
 
+-- Standard imports
+import Prim.Row (class Union)
+
 -- Effect imports
 import Effect (Effect)
+
+-- Web imports
+import Web.DOM.Element (Element)
 
 -- Own import
 import OpenLayers.Object (BaseObject, get) as Object
@@ -30,14 +37,19 @@ import OpenLayers.Object (BaseObject, get) as Object
 --
 -- Foreign data types
 -- 
+
+-- |The FFI version of the Control. For internal use only!
 foreign import data RawControl :: Type
 type Control = Object.BaseObject RawControl
 
 --
 -- Function mapping
 --
-foreign import createImpl :: forall r . Fn1 {|r} (Effect Control)
+foreign import createImpl :: forall r . Fn1 (Record r) (Effect Control)
+
+-- |The options for the creation of the Control. See the `options` parameter in `new Control(options)` in the OpenLayers API documentation.
+type ControlOptions = (element::Element)
 
 -- |Creates a new Control, see `new Control` in the Openlayers API documentation.
-create :: forall r . {|r} -> Effect Control
+create :: forall l r . Union l r ControlOptions => Record l -> Effect Control
 create o = runFn1 createImpl o
