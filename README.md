@@ -32,7 +32,7 @@ in those cases where the FFI binding differs it is written in the purescript fil
 and can be generated from the repository with:
 
 ```sh
-spage docs
+spago docs
 ```
 
 ## Requirements to be able to build
