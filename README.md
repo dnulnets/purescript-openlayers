@@ -13,7 +13,7 @@ let additions = {
     openlayers =
     { dependencies =[ "console", "effect", "foreign", "functions", "maybe", "nullable", "psci-support"]
     , repo = "https://github.com/dnulnets/purescript-openlayers.git"
-    , version = "v0.1.0"
+    , version = "v0.1.2"
     }
 }
 ```
