@@ -16,7 +16,9 @@ module OpenLayers.Source.XYZ (
   , RawXYZ) where
 
 -- Our own imports
-import OpenLayers.Source.TileImage (BaseObject, RawSource, RawTileImage, RawTileSource, RawUrlTile, Source, TileImage, TileSource, UrlTile, get) as TileImage
+import OpenLayers.Source.TileImage (BaseEvent, BaseObject, ObjectEvent, Observable
+    , RawBaseEvent, RawBaseObject, RawObjectEvent, RawObservable, RawSource, RawTileImage
+    , RawTileSource, RawUrlTile, Source, Target, TileImage, TileSource, UrlTile, get, on, once, un) as TileImage
 
 --
 -- Foreign data types

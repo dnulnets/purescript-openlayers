@@ -16,7 +16,9 @@ module OpenLayers.Source.TileImage (
   , RawTileImage) where
 
 -- Our own imports
-import OpenLayers.Source.UrlTile (BaseObject, RawSource, RawTileSource, RawUrlTile, Source, TileSource, UrlTile, get) as UrlTile
+import OpenLayers.Source.UrlTile (BaseEvent, BaseObject, ObjectEvent, Observable, RawBaseEvent
+    , RawBaseObject, RawObjectEvent, RawObservable, RawSource, RawTileSource, RawUrlTile
+    , Source, Target, TileSource, UrlTile, get, on, once, un) as UrlTile
 
 --
 -- Foreign data types

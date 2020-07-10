@@ -30,7 +30,7 @@ import Data.Function.Uncurried
 import Effect (Effect)
 
 -- Import our own stuff
-import OpenLayers.Events.Target (Target) as Target
+import OpenLayers.Events.Target (RawTarget, Target) as Target
 import OpenLayers.Events.Event as Event
 import OpenLayers.Events as Events
 

@@ -16,7 +16,9 @@ module OpenLayers.Source.Tile (
   , RawTileSource) where
 
 -- Our own imports
-import OpenLayers.Source.Source (BaseObject, RawSource, Source, get) as Source
+import OpenLayers.Source.Source (BaseEvent, BaseObject, ObjectEvent, Observable
+    , RawBaseEvent, RawBaseObject, RawObjectEvent, RawObservable, RawSource
+    , Source, Target, get, on, once, un) as Source
 
 --
 -- Foreign data types

@@ -12,6 +12,8 @@ You can edit this file as you like.
   , "nullable"
   , "psci-support"
   , "web-dom"
+  , "variant"
+  , "typelevel-prelude"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

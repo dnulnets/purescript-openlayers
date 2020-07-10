@@ -16,7 +16,8 @@ module OpenLayers.Source.Source (
   , RawSource ) where
 
 -- Our own imports
-import OpenLayers.Object (BaseObject, get) as Object
+import OpenLayers.Object (BaseEvent, BaseObject, ObjectEvent, Observable, RawBaseEvent
+  , RawBaseObject, RawObjectEvent, RawObservable, Target, get, on, once, un) as Object
 
 --
 -- Foreign data types

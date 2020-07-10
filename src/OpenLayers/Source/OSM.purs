@@ -31,8 +31,9 @@ import Effect (Effect)
 
 -- Import own stuff
 import OpenLayers.FFI as FFI
-import OpenLayers.Source.XYZ (BaseObject, RawSource, RawTileImage, RawTileSource
-                            , RawUrlTile, RawXYZ, Source, TileImage, TileSource, UrlTile, XYZ, get) as XYZ
+import OpenLayers.Source.XYZ (BaseEvent, BaseObject, ObjectEvent, Observable, RawBaseEvent
+  , RawBaseObject, RawObjectEvent, RawObservable, RawSource, RawTileImage, RawTileSource
+  , RawUrlTile, RawXYZ, Source, Target, TileImage, TileSource, UrlTile, XYZ, get, on, once, un) as XYZ
 
 --
 -- Foreign data types

@@ -34,8 +34,8 @@ import Data.Function.Uncurried (
 import Effect (Effect)
 
 -- Our own imports
-import OpenLayers.Observable (Observable) as Observable
-import OpenLayers.Events.Event(BaseEvent) as Event
+import OpenLayers.Observable (Observable, RawObservable, Target, on, once, un) as Observable
+import OpenLayers.Events.Event (BaseEvent, RawBaseEvent) as Event
 
 --
 -- Foreign data types
