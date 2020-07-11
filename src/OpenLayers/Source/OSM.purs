@@ -14,7 +14,7 @@ module OpenLayers.Source.OSM (
 
   , OSM
   , RawOSM
-  , OSMOptions (..)
+  , Options (..)
   , create
   , create') where
 
@@ -47,11 +47,11 @@ type OSM = XYZ.XYZ RawOSM
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect OSM)
 
 -- |The options for the creation of the OSM. See the `options` parameter in `new OSM(options)` in the OpenLayers API documentation.
-type OSMOptions = ()
+type Options = ()
 
 -- |Creates an open street map source, see `new OSM(r)` in the OpenLayers
 -- |API documentation.
-create :: forall l r . Union l r OSMOptions => Record l -> Effect OSM
+create :: forall l r . Union l r Options => Record l -> Effect OSM
 create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 -- |Creates an open street map source with defaults, see `new OSM()` in

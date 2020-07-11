@@ -14,7 +14,7 @@ module OpenLayers.Control.Control (
     -- Control
     , Control
     , RawControl
-    , ControlOptions(..)
+    , Options(..)
     , create) where
 
 -- Data imports
@@ -48,8 +48,8 @@ type Control = Object.BaseObject RawControl
 foreign import createImpl :: forall r . Fn1 (Record r) (Effect Control)
 
 -- |The options for the creation of the Control. See the `options` parameter in `new Control(options)` in the OpenLayers API documentation.
-type ControlOptions = (element::Element)
+type Options = (element::Element)
 
 -- |Creates a new Control, see `new Control` in the Openlayers API documentation.
-create :: forall l r . Union l r ControlOptions => Record l -> Effect Control
+create :: forall l r . Union l r Options => Record l -> Effect Control
 create o = runFn1 createImpl o

@@ -12,8 +12,10 @@
 module OpenLayers.Collection (
     Collection
     , RawCollection
+    , Options(..)
 
     , create
+    , create'
 
     , extend
     , getLength
@@ -44,15 +46,19 @@ foreign import data RawCollection :: Type->Type
 type Collection a = RawCollection a
 
 -- |The options for the creation of the Collection. See the `options` parameter in `new Collection(options)` in the OpenLayers API documentation.
-type CollectionOption = (unique::Boolean)
+type Options = (unique::Boolean)
 --
 -- Function mapping
 --
 foreign import createImpl :: forall r t . Fn2 (Array t) (FFI.NullableOrUndefined (Record r)) (Effect (Collection t))
 
 -- |Creates a `Collection`, see `new Collection(r)` in the OpenLayers API documentation.
-create :: forall l r t . Union l r CollectionOption => Array t -> Record l -> Effect (Collection t)
+create :: forall l r t . Union l r Options => Array t -> Record l -> Effect (Collection t)
 create a o = runFn2 createImpl a (FFI.notNullOrUndefined o)
+
+-- |Creates a `Collection` using the default options, see `new Collection(r)` in the OpenLayers API documentation.
+create' :: forall t . Array t -> Effect (Collection t)
+create' a = runFn2 createImpl a FFI.undefined
 
 foreign import extendImpl :: forall t . Fn2 (Array t) (Collection t) (Collection t)
 

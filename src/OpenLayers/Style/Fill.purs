@@ -11,9 +11,11 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Style.Fill (
   Fill
-  , FillOptions (..)
+  , Options (..)
+  , Color
   , create
   , create'
+  , color
   ) where
 
 -- Data imports
@@ -23,6 +25,7 @@ import Data.Function.Uncurried
 
 -- Standard import
 import Prim.Row (class Union)
+import Unsafe.Coerce (unsafeCoerce)
 
 -- Effect imports
 import Effect (Effect)
@@ -35,16 +38,23 @@ import OpenLayers.FFI as FFI
 -- 
 foreign import data Fill :: Type
 
+-- |The FFI mapping of the color element in the options structure
+foreign import data Color :: Type
+
 --
 -- Function mapping
 --
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Fill)
 
 -- |The options for the creation of the Fill. See the `options` parameter in `new Fill(options)` in the OpenLayers API documentation.
-type FillOptions = (color :: String)
+type Options = (color :: Color)
+
+-- |Constructors for the color element in `Options`
+color::{asString::String->Color, asArray::Array Int->Color}
+color = {asString:unsafeCoerce, asArray:unsafeCoerce}
 
 -- |Creates a `Fill`, see `new Fill(r)` in the OpenLayers API documentation.
-create :: forall l r . Union l r FillOptions => Record l -> Effect Fill
+create :: forall l r . Union l r Options => Record l -> Effect Fill
 create r = runFn1 createImpl (FFI.notNullOrUndefined r)
 
 -- |Creates a `Fill` with defaults, see `new Fill()` in the OpenLayers API documentation.

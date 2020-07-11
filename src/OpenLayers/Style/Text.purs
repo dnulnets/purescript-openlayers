@@ -11,6 +11,7 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Style.Text (
   Text
+  , Options(..)
   , create
   , create'
   ) where
@@ -40,12 +41,10 @@ foreign import data Text :: Type
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Text)
 
 -- |The options for the creation of the Text. See the `options` parameter in `new Text(options)` in the OpenLayers API documentation.
-type TextOptions = (text :: String
-                  , offsetY :: Int
-                  , font :: String)
+type Options = (text :: String, offsetY :: Int, font :: String)
 
 -- |Creates a `Text`, see `new text(r)` in the OpenLayers API documentation.
-create :: forall l r . Union l r TextOptions => Record l -> Effect Text
+create :: forall l r . Union l r Options => Record l -> Effect Text
 create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 -- |Creates a `Text` with defaults, see `new Text()` in the OpenLayers API documentation.

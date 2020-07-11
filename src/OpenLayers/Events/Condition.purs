@@ -21,18 +21,12 @@ import OpenLayers.Events.Event as Event
 --
 foreign import data Condition :: Type
 
---
--- Foreign imports
---
+-- |`doubleClick` handler, see the OpenLayers API for documentation.
 foreign import doubleClick::Condition
+-- |`never` handler, see the OpenLayers API for documentation.
 foreign import never::Condition
 
---
--- Creates a condition, not part of OpenLayers
---
+-- |Creates a `Condition` based on a handler function, not part of OpenLayers
 foreign import createImpl::forall e . Fn1 (Events.ListenerFunction (Event.BaseEvent e)) Condition
 create::forall e . Events.ListenerFunction (Event.BaseEvent e)->Condition
 create f = runFn1 createImpl f
-
---foreign import data RawBaseEvent :: Type -> Type
---type BaseEvent a = RawBaseEvent a

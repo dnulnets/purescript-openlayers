@@ -15,7 +15,7 @@ module OpenLayers.Layer.Tile (
 
   , create
   , create'
-  , TileOptions(..)) where
+  , Options(..)) where
 
 -- Standard imports
 import Prim.Row (class Union)
@@ -45,10 +45,10 @@ type Tile = BaseTile.BaseTileLayer RawTile
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Tile)
 
 -- |The options for the creation of the Tile. See the `options` parameter in `new Tile(options)` in the OpenLayers API documentation.
-type TileOptions s = (source :: Tile.TileSource s)
+type Options s = (source :: Tile.TileSource s)
 
 -- |Creates a `Tile`, see `new Tile(r)` in the OpenLayers API documentation.
-create :: forall l r s. Union l r (TileOptions s) => Record l -> Effect Tile
+create :: forall l r s. Union l r (Options s) => Record l -> Effect Tile
 create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 -- |Creates a `Tile` with defaults, see `new Tile()`  in the OpenLayers API documentation

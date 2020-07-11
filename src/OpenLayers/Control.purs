@@ -12,7 +12,7 @@
 module OpenLayers.Control (
     defaults
     , defaults'
-    , DefaultsOption(..)) where
+    , Options(..)) where
 
 -- Imports
 import Prim.Row (class Union)
@@ -33,11 +33,12 @@ import OpenLayers.FFI as FFI
 -- Function mapping
 --
 
-type DefaultsOption = ()
+-- |The options for the defaults. See the `options` parameter for the `defaults` in the OpenLayers API documentation.
+type Options = ()
 
 foreign import defaultsImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect (Collection.Collection Control.Control))
 
-defaults :: forall l r . Union l r DefaultsOption => Record l -> Effect (Collection.Collection Control.Control)
+defaults :: forall l r . Union l r Options => Record l -> Effect (Collection.Collection Control.Control)
 defaults o = runFn1 defaultsImpl (FFI.notNullOrUndefined o)
 
 -- |Same as `defaults`, but uses the default interactions, see Openlayers API documentation.

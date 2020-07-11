@@ -15,10 +15,10 @@ module OpenLayers.Layer.Vector (
   , Vector
   , Style(..)
   , RawVector
+  , Options(..)
 
   , create
   , create'
-  , VectorOptions(..)
   
   , setStyle ) where
 
@@ -72,10 +72,10 @@ type Vector = BaseVector.BaseVectorLayer RawVector
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Vector)
 
 -- |The options for the creation of the Vector. See the `options` parameter in `new Vector(options)` in the OpenLayers API documentation.
-type VectorOptions = ( source :: Vector.VectorSource )
+type Options = ( source :: Vector.VectorSource )
 
 -- |Creates a new `Tile`, see `new Tile(r)` in the OpenLayers API documentation.
-create :: forall l r . Union l r VectorOptions => Record l -> Effect Vector
+create :: forall l r . Union l r Options => Record l -> Effect Vector
 create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 -- |Creates a new `Tile` with defaults, see `new Tile()` in the OpenLayers API documentation.
@@ -89,11 +89,11 @@ foreign import setStyleImpl :: Fn2 Style.Style Vector (Effect Unit)
 foreign import setStyleFImpl :: Fn2 (Feature.Feature->Number->Effect (Nullable Style.Style)) Vector (Effect Unit)
 foreign import setStyleAImpl :: Fn2 (Array Style.Style) Vector (Effect Unit)
 
--- Convert it from a Maybe to a Nullable Style for this so we do not expose Nullabe
-toStyleFunction::(Feature.Feature->Number->Effect (Maybe Style.Style))->Feature.Feature->Number->Effect (Nullable Style.Style)
-toStyleFunction ff f n = toNullable <$> (ff f n)
-
 setStyle::Style->Vector->Effect Unit
 setStyle (Style s) self = runFn2 setStyleImpl s self
 setStyle (StyleFunction f) self = runFn2 setStyleFImpl (toStyleFunction f) self
+  where
+    -- Convert it from a Maybe to a Nullable Style for this so we do not expose Nullabe
+    toStyleFunction::(Feature.Feature->Number->Effect (Maybe Style.Style))->Feature.Feature->Number->Effect (Nullable Style.Style)
+    toStyleFunction ff feature n = toNullable <$> (ff feature n)
 setStyle (StyleArray a) self = runFn2 setStyleAImpl a self

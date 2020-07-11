@@ -8,9 +8,15 @@
 // Get hold of the OpenLayer types and functions
 var ol  = require ('ol');
 
-exports.createImpl = function (opt) {
+exports.createFromPropertiesImpl = function (opt) {
     return function() {
         return new ol.Feature(opt);
+    }
+}
+
+exports.createFromGeometryImpl = function (g) {
+    return function() {
+        return new ol.Feature(g);
     }
 }
 

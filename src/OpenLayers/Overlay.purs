@@ -11,6 +11,7 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Overlay (
   Overlay
+  , Options(..)
   , create) where
 
 -- Standard imports
@@ -33,7 +34,7 @@ import OpenLayers.FFI as FFI
 foreign import data Overlay :: Type
 
 -- |The options for the creation of the Overlay. See the `options` parameter in `new Overlay(options)` in the OpenLayers API documentation.
-type OverlayOption = ()
+type Options = ()
 
 --
 -- Function mapping
@@ -41,6 +42,6 @@ type OverlayOption = ()
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Overlay)
 
 -- |Create a new `Overlay`, see `new Overlay(r)` in the OpenLayers API documentation.
-create :: forall l r . Union l r OverlayOption => Record l -> Effect Overlay
+create :: forall l r . Union l r Options => Record l -> Effect Overlay
 create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 

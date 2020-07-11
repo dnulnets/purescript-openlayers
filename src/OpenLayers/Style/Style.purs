@@ -11,7 +11,7 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Style.Style (
   Style
-  , StyleOptions
+  , Options(..)
   , setText
   , create
   , create') where
@@ -44,10 +44,10 @@ foreign import data Style :: Type
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Style)
 
 -- |The options for the creation of the Style. See the `options` parameter in `new Style(options)` in the OpenLayers API documentation.
-type StyleOptions s = (image :: Image.ImageStyle s)
+type Options s = (image :: Image.ImageStyle s)
 
 -- |Creates a `Style`, see `new Style(r)` in the OpenLayers API documentation.
-create :: forall l r s . Union l r (StyleOptions s) => Record l -> Effect Style
+create :: forall l r s . Union l r (Options s) => Record l -> Effect Style
 create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 -- |Creates a `Style` with defaults, see `new Style()` in the OpenLayers API documentation.

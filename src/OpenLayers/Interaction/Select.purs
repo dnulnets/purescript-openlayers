@@ -25,7 +25,10 @@ module OpenLayers.Interaction.Select
     , RawSelect
     , create
     , create'
-    , SelectOptions(..)
+    , Options(..)
+    , LayerFilterFunction
+    , Layers
+    , layers
     , getFeatures
     , onSelect
     , unSelect ) where
@@ -33,6 +36,7 @@ module OpenLayers.Interaction.Select
 -- Standard import
 import Prelude
 import Prim.Row (class Union)
+import Unsafe.Coerce (unsafeCoerce)
 
 -- Data imports
 import Data.Function.Uncurried (
@@ -73,13 +77,21 @@ foreign import getDeselected :: SelectEvent->Effect (Array Feature.Feature)
 --
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined  (Record r)) (Effect Select)
 
+-- |The FFI mapping of the layers element in `Options`.
+foreign import data Layers :: Type
+
+-- |The filter function that can be used in the layer element in `Options`.
+type LayerFilterFunction l = Layer.Layer l -> Effect Boolean
+
 -- |The options for the creation of the Select. See the `options` parameter in `new Select(options)` in the OpenLayers API documentation.
-type SelectOptions l = (multi::Boolean
-                      , layers:: Array (Layer.Layer l)
-                      , toggleCondition:: Condition.Condition)
+type Options = (multi::Boolean, layers:: Layers, toggleCondition:: Condition.Condition)
+
+-- |Constructors for the layers element in `Options`.
+layers::forall l . {asArray::Array (Layer.Layer l)->Layers, asFunction::LayerFilterFunction l->Layers}
+layers = {asArray:unsafeCoerce, asFunction:unsafeCoerce}
 
 -- |Creates a `Select` object, see `new Select` in the OpenLayers API documentation.
-create :: forall l r layer . Union l r (SelectOptions layer) => Record l -> Effect Select
+create :: forall l r . Union l r Options => Record l -> Effect Select
 create opts = runFn1 createImpl (FFI.notNullOrUndefined opts)
 
 -- |Creates a `Select` object with defaults, see `new Select` in the OpenLayers API documentation.

@@ -38,6 +38,15 @@ function effgetfield (field) {
 //
 exports.createImpl = function (opts) {
     return function() {
+        if (opts) {
+            if (opts.layers) {
+                if (typeof opts.layers === 'function') {
+                    opts.layers = function (l) {
+                        return opts.layers(l)();
+                    }
+                }
+            }
+        }
         return new oli.Select (opts);
     }
 }

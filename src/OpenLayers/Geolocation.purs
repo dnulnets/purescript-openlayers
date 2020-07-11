@@ -18,7 +18,7 @@ module OpenLayers.Geolocation (
     , create
     , create'
     , TrackingOptions(..)
-    , GeolocationOptions(..)
+    , Options(..)
 
     , setTracking
     
@@ -77,10 +77,10 @@ foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r))
 type TrackingOptions = (enableHighAccuracy::Boolean, timeout::Int, maximumage::Int)
 
 -- |The options for the creation of a Geolocation. See the `options` parameter in `new Geolocation(options)` in the OpenLayers API documentation.
-type GeolocationOptions t = (projection::Proj.SRS, trackingOptions::Record t, tracking::Boolean)
+type Options t = (projection::Proj.SRS, trackingOptions::Record t, tracking::Boolean)
 
 -- |Creates a `Geolocation`, see `new GeoLocation(r)` in the OpenLayers API documentation.
-create :: forall l r tl tr . Union l r (GeolocationOptions tl)
+create :: forall l r tl tr . Union l r (Options tl)
                               => Union tl tr TrackingOptions
                               => Record l
                               -> Effect Geolocation

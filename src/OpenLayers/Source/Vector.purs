@@ -13,7 +13,10 @@ module OpenLayers.Source.Vector (
   module Source
 
   , VectorSource
+  , Features
+  , features
   , RawVectorSource
+  , Options(..)
   , create
   , create') where
 
@@ -24,6 +27,7 @@ import Data.Function.Uncurried
 
 -- Standard imports
 import Prim.Row (class Union)
+import Unsafe.Coerce (unsafeCoerce)
 
 -- Effect imports
 import Effect (Effect)
@@ -32,23 +36,28 @@ import Effect (Effect)
 import OpenLayers.FFI as FFI
 import OpenLayers.Source.Source (BaseObject, RawSource, Source, get) as Source
 import OpenLayers.Feature as Feature
-
+import OpenLayers.Collection as Collection
 --
 -- Foreign data types
 -- 
 foreign import data RawVectorSource :: Type
 type VectorSource = Source.Source RawVectorSource
 
+foreign import data Features :: Type
 --
 -- Function mapping
 --
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect VectorSource)
 
 -- |The options for the creation of the Vector. See the `options` parameter in `new Vector(options)` in the OpenLayers API documentation.
-type VectorSourceOptions = (features :: Array Feature.Feature)
+type Options = (features :: Features)
+
+-- |Constructors for the features element in `Options`
+features::{asArray::Array Feature.Feature->Features, asCollection::Collection.Collection Feature.Feature->Features}
+features = {asArray:unsafeCoerce, asCollection:unsafeCoerce}
 
 -- |Creates a `Vector` source, see `new Vector(r)` in the Openlayers API documentation.
-create :: forall l r . Union l r VectorSourceOptions => Record l -> Effect VectorSource
+create :: forall l r . Union l r Options => Record l -> Effect VectorSource
 create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 -- |Creates a `Vector` source with defaults, see `new Vector()` in the OpenLayers API documentation.

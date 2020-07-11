@@ -17,7 +17,8 @@ module OpenLayers.Feature (
   , RawFeature
   , create
   , create'
-  , FeatureOption(..)
+  , Properties(..)
+  , GeometryOrProperties(..)
 
   , setStyle
   , setProperties
@@ -58,19 +59,29 @@ foreign import data RawFeature :: Type
 type Feature = Object.BaseObject RawFeature
 
 -- |The options for the creation of the Feature. See the `options` parameter in `new Feature(options)` in the OpenLayers API documentation.
-type FeatureOption g r = (geometry :: Geometry.Geometry g | r)
+-- The `Properties` constructor is for the creation of a `Feature` based on properties and the `Geometry` constructor is for the creation
+-- of a `Feature` based on a `Geometry`. See the `GeometryOrProperties` type. 
+data GeometryOrProperties g r = Properties (Record r)
+                              | Geometry (Geometry.Geometry g)
+
+-- |The properties for the creation of a `Feature` based on the `Properties` constructor. See the `options` parameter in `new Feature(options)` in the OpenLayers API documentation.
+-- The r in the type is to support any property.
+type Properties g r = (geometry :: Geometry.Geometry g | r)
+
 --
 -- Function mapping
 --
-foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Feature)
+foreign import createFromPropertiesImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Feature)
+foreign import createFromGeometryImpl :: forall g . Fn1 (FFI.NullableOrUndefined (Geometry.Geometry g)) (Effect Feature)
 
 -- |Creates a `Feature`, see `new Feature(options)` in the OpenLayers API documentation.
-create :: forall l r g p . Union l r (FeatureOption g p) => Record l -> Effect Feature
-create o = runFn1 createImpl (FFI.notNullOrUndefined o)
+create :: forall l r g p . Union l r (Properties g p) => GeometryOrProperties g l -> Effect Feature
+create (Properties r) = runFn1 createFromPropertiesImpl (FFI.notNullOrUndefined r)
+create (Geometry g) = runFn1 createFromGeometryImpl (FFI.notNullOrUndefined g)
 
 -- |Creates a `Feature` with defaults, see `new Feature()` in the OpenLayers API documentation.
 create' :: Effect Feature
-create' = runFn1 createImpl FFI.undefined
+create' = runFn1 createFromPropertiesImpl FFI.undefined
 
 --
 -- setters

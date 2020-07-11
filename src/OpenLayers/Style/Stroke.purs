@@ -11,13 +11,16 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.Style.Stroke (
   Stroke
-  , StrokeOptions
+  , Options(..)
+  , Color
+  , color
 
   , create
   , create') where
 
 -- Standard imports
 import Prim.Row (class Union)
+import Unsafe.Coerce (unsafeCoerce)
 
 -- Data imports
 import Data.Function.Uncurried (Fn1, runFn1)
@@ -33,17 +36,23 @@ import OpenLayers.FFI as FFI
 -- 
 foreign import data Stroke :: Type
 
+-- |The FFI mapping of the color element in the options structure
+foreign import data Color :: Type
+
 --
 -- Function mapping
 --
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect Stroke)
 
 -- |The options for the creation of the Stroke. See the `options` parameter in `new Stroke(options)` in the OpenLayers API documentation.
-type StrokeOptions = (color :: String
-                    , width :: Int)
+type Options = (color :: Color, width :: Int)
+
+-- |Constructors for the color element in `Options`
+color::{asString::String->Color, asArray::Array Int->Color}
+color = {asString:unsafeCoerce, asArray:unsafeCoerce}
 
 -- |Creates a `Stroke`, see `new Stroke(r)` in the OpenLayers API documentation.
-create :: forall l r . Union l r StrokeOptions => Record l -> Effect Stroke
+create :: forall l r . Union l r Options => Record l -> Effect Stroke
 create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 
 -- |Creates a `Stroke`, see `new Stroke()` in the Openlayers API documentation.
