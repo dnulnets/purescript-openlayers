@@ -17,9 +17,15 @@ module OpenLayers.Map (
   , Controls
   , Layers
   , RawMap
+  , Interactions
+  , Overlays
+  , KBDEventTarget
   , target
   , controls
   , layers
+  , interactions
+  , overlays
+  , keyboardeventtarget
 
   , create
   , create'
@@ -41,13 +47,16 @@ import Effect (Effect)
 
 -- Web imports
 import Web.DOM.Element (Element)
+import Web.DOM.Document (Document)
 
 -- Openlayers
 import OpenLayers.FFI as FFI
 import OpenLayers.Layer.Base as Base
 import OpenLayers.View as View
+import OpenLayers.Overlay as Overlay
 import OpenLayers.Control.Control as Control
 import OpenLayers.Collection as Collection
+import OpenLayers.Interaction.Interaction as Interaction
 import OpenLayers.PluggableMap (
   PluggableMap
   , addInteraction
@@ -71,12 +80,34 @@ foreign import data Controls :: Type
 -- |The FFI mapping of the controls element in the options structure
 foreign import data Layers :: Type
 
+-- |The FFI mapping of the interactions element in the options structure
+foreign import data Interactions :: Type
+
+-- |The FFI mapping of the overlays element in the options structure
+foreign import data Overlays :: Type
+
+-- |The FFI mapping of the kbdeventtarget element in the options structure
+foreign import data KBDEventTarget :: Type
+
 -- |The options for the creation of the Map. See the `options` parameter in `new Map(options)` in the OpenLayers API documentation.
-type Options r = (target::Target, controls::Controls, layers::Layers, view::View.View)
+type Options r = (target::Target
+                  , controls::Controls
+                  , layers::Layers
+                  , view::View.View
+                  , pixelRatio::Number
+                  , interactions::Interactions
+                  , keyboardEventTarget::KBDEventTarget
+                  , maxTilesLoading::Int
+                  , moveTolerance::Int
+                  , overlays::Overlays)
 
 -- |Constructors for the target element in `Options`
 target::{asId::String->Target, asElement::Element->Target}
 target = {asId:unsafeCoerce, asElement:unsafeCoerce}
+
+-- |Constructors for the keyboardeventtarget element in `Options`
+keyboardeventtarget::{asId::String->Target, asElement::Element->Target, asDocument::Document->Target}
+keyboardeventtarget = {asId:unsafeCoerce, asElement:unsafeCoerce, asDocument:unsafeCoerce}
 
 -- |Constructors for the controls element in `Options`
 controls::{asCollection::Collection.Collection Control.Control->Controls, asArray::Array Control.Control->Controls}
@@ -85,6 +116,16 @@ controls = {asCollection:unsafeCoerce, asArray:unsafeCoerce}
 -- |Constructors for the layers element in `Options`
 layers::forall r . {asCollection::Collection.Collection (Base.BaseLayer r)->Layers, asArray::Array (Base.BaseLayer r)->Layers}
 layers = {asCollection:unsafeCoerce, asArray:unsafeCoerce}
+
+-- |Constructors for the interactions element in `Options`
+interactions::forall r . {asCollection::Collection.Collection (Interaction.Interaction r)->Interactions
+                        , asArray::Array (Interaction.Interaction r)->Interactions}
+interactions = {asCollection:unsafeCoerce, asArray:unsafeCoerce}
+
+-- |Constructors for the overlays element in `Options`
+overlays::{asCollection::Collection.Collection Overlay.Overlay->Overlays
+          , asArray::Array Overlay.Overlay->Overlays}
+overlays = {asCollection:unsafeCoerce, asArray:unsafeCoerce}
 
 --
 -- Function mapping
