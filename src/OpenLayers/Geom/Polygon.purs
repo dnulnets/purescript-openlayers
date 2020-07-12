@@ -30,6 +30,7 @@ import Effect (Effect)
 import OpenLayers.Geom.SimpleGeometry as SimpleGeometry
 import OpenLayers.Geom.GeometryLayout as GeometryLayout
 import OpenLayers.FFI as FFI
+import OpenLayers.Coordinate as Coordinate
 
 --
 -- Foreign data types
@@ -42,11 +43,12 @@ type Polygon = SimpleGeometry.SimpleGeometry RawPolygon
 --
 -- Function mapping
 --
-foreign import createImpl::Fn2 (Array (Array Number)) (FFI.NullableOrUndefined GeometryLayout.GeometryLayout) (Effect Polygon)
+foreign import createImpl::Fn2 (Array (Array Coordinate.Coordinate)) (FFI.NullableOrUndefined GeometryLayout.GeometryLayout) (Effect Polygon)
+
 -- |Creates a Polygon, see `new Polygon` in OpenLayers API documentation.
-create::Array (Array Number)->Maybe GeometryLayout.GeometryLayout->Effect Polygon
+create::Array (Array Coordinate.Coordinate)->Maybe GeometryLayout.GeometryLayout->Effect Polygon
 create ap l = runFn2 createImpl ap (FFI.toNullable l)
 
 -- |Creates a new Polygon with no default, see `new Polygon` in OpenLayers API documentation.
-create'::Array (Array Number)->Effect Polygon
+create'::Array (Array Coordinate.Coordinate)->Effect Polygon
 create' ap = runFn2 createImpl ap FFI.undefined

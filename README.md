@@ -1,8 +1,7 @@
 # purescript-openlayers
 A purescript FFI binding for OpenLayers v6.3.1. It is by no means near a complete binding but fulfills the need for the Swedish IoT Hub Prototype for Accessibility Case 3, see https://github.com/dnulnets/haccessibility, for now.
 
-
-It will improve with time ...
+OpenLayers uses a lot of object inheritance, optional record fields and fields having mutiple types when creating the objects. It has been solved in purescript by using type parameters, Union, and a pattern of constructuor records and unsafeCoerce. See down below for more details.
 
 ## Adding the library to your proecjt
 
@@ -42,4 +41,52 @@ You need to include Openlayers in the node environment to be able to run or pack
 
 ```
 npm install ol
+```
+
+## Patterns for OpenLayers
+The following patterns have been used:
+### Inheritance
+The following pattern is used to follow the inheritance structure for the Openlayers FFI mapping:
+
+```purescript
+foreign import data RawBaseLayer :: Type -> Type
+foreign import data RawLayer :: Type
+
+type BaseLayer a = RawBaseLayer a
+type RawLayer = BaseLayer RawLayer
+```
+
+This is an example of a Layer that inherits BaseLayer.
+
+### Optional record fields
+The following pattern is used to support optional record fields within OpenLayers:
+
+```purescript
+type Options = (a::String, b::Boolean)
+
+create :: forall l r . Union l r Options => Record l -> Effect ....
+create o = ....
+```
+
+This is an example of a create (mapping of a new operator within Openlayers) is done.
+
+### Record fields with multiple types
+The following pattern is used to support record fields that can have multiple types within OpenLayers:
+
+```purescript
+foreign import data Target :: Type
+
+type Options = (element::Element, target::Target)
+
+target::{asId::String->Target, asElement::Element->Target}
+target = {asId:unsafeCoerce, asElement:unsafeCoerce}
+
+create :: forall l r . Union l r Options => Record l -> Effect ...
+create o = ...
+```
+
+and can then be used such as follows:
+
+```purescript
+create { target: target.asId "elementid"}
 ```

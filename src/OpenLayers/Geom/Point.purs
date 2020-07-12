@@ -28,6 +28,7 @@ import Effect (Effect)
 import OpenLayers.FFI as FFI
 import OpenLayers.Geom.SimpleGeometry as SimpleGeometry
 import OpenLayers.Geom.GeometryLayout as GeometryLayout
+import OpenLayers.Coordinate as Coordinate
 
 --
 -- Foreign data types
@@ -41,9 +42,9 @@ type Point = SimpleGeometry.SimpleGeometry RawPoint
 foreign import createImpl::Fn2 (Array Number) (FFI.NullableOrUndefined GeometryLayout.GeometryLayout) (Effect Point)
 
 -- |Creates a new Point, see `new Point` in OpenLayers API documentation.
-create::Array Number->Maybe GeometryLayout.GeometryLayout->Effect Point
+create::Coordinate.Coordinate->Maybe GeometryLayout.GeometryLayout->Effect Point
 create c e = runFn2 createImpl c (FFI.toNullable e)
 
 -- |Creates a new Point, but uses the default geometry layout, see `new Point` in OpenLayers API documentation.
-create'::Array Number->Effect Point
+create'::Coordinate.Coordinate->Effect Point
 create' c = runFn2 createImpl c FFI.undefined

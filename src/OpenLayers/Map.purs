@@ -65,26 +65,26 @@ type Map = PluggableMap.PluggableMap RawMap
 -- |The FFI mapping of the target element in the options structure
 foreign import data Target :: Type
 
--- |Constructors for the target element in `MapOption`
-target::{id::String->Target, element::Element->Target}
-target = {id:unsafeCoerce, element:unsafeCoerce}
-
 -- |The FFI mapping of the controls element in the options structure
 foreign import data Controls :: Type
-
--- |Constructors for the controls element in `MapOption`
-controls::{asCollection::Collection.Collection Control.Control->Controls, asArray::Array Control.Control->Controls}
-controls = {asCollection:unsafeCoerce, asArray:unsafeCoerce}
 
 -- |The FFI mapping of the controls element in the options structure
 foreign import data Layers :: Type
 
--- |Constructors for the layers element in `MapOption`
-layers::forall r . {asCollection::Collection.Collection (Base.BaseLayer r)->Layers, asArray::Array (Base.BaseLayer r)->Layers}
-layers = {asCollection:unsafeCoerce, asArray:unsafeCoerce}
-
 -- |The options for the creation of the Map. See the `options` parameter in `new Map(options)` in the OpenLayers API documentation.
 type Options r = (target::Target, controls::Controls, layers::Layers, view::View.View)
+
+-- |Constructors for the target element in `Options`
+target::{asId::String->Target, asElement::Element->Target}
+target = {asId:unsafeCoerce, asElement:unsafeCoerce}
+
+-- |Constructors for the controls element in `Options`
+controls::{asCollection::Collection.Collection Control.Control->Controls, asArray::Array Control.Control->Controls}
+controls = {asCollection:unsafeCoerce, asArray:unsafeCoerce}
+
+-- |Constructors for the layers element in `Options`
+layers::forall r . {asCollection::Collection.Collection (Base.BaseLayer r)->Layers, asArray::Array (Base.BaseLayer r)->Layers}
+layers = {asCollection:unsafeCoerce, asArray:unsafeCoerce}
 
 --
 -- Function mapping
