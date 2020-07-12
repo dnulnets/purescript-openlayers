@@ -44,7 +44,10 @@ npm install ol
 ```
 
 ## Patterns for OpenLayers
-The following patterns have been used:
+All new operators in OpenLayers are mapped to a correspondign create function for each file. The case when the create options
+can be omitted completely an create' function is also added.
+
+In addition to that the following patterns have been used:
 ### Inheritance
 The following pattern is used to follow the inheritance structure for the Openlayers FFI mapping:
 
@@ -56,7 +59,7 @@ type BaseLayer a = RawBaseLayer a
 type RawLayer = BaseLayer RawLayer
 ```
 
-This is an example of a Layer that inherits BaseLayer.
+This is an example of a Layer that "inherits" BaseLayer and you can then use a Layer in every function that takes a BaseLayer a.
 
 ### Optional record fields
 The following pattern is used to support optional record fields within OpenLayers:
