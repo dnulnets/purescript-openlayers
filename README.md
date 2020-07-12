@@ -3,7 +3,7 @@ A purescript FFI binding for OpenLayers v6.3.1. It is by no means near a complet
 
 OpenLayers uses a lot of object inheritance, optional record fields and fields having mutiple types when creating the objects. It has been solved in purescript by using type parameters, Union, and a pattern of constructuor records and unsafeCoerce. See down below for more details.
 
-## Adding the library to your proecjt
+## Adding the library to your project
 
 Add this to your package.dhall:
 
@@ -43,9 +43,8 @@ You need to include Openlayers in the node environment to be able to run or pack
 npm install ol
 ```
 
-## Patterns for OpenLayers
-All new operators in OpenLayers are mapped to a correspondign create function for each file. The case when the create options
-can be omitted completely an create' function is also added.
+## Patterns used by the FFI Mapping for OpenLayers 
+All javascript ***new*** functions in OpenLayers are mapped to a correspondign ***create*** function for each class. The case when the options parameter for the javascript ***new*** function can be omitted completely a ***create'*** function is added.
 
 In addition to that the following patterns have been used:
 ### Inheritance
@@ -59,7 +58,7 @@ type BaseLayer a = RawBaseLayer a
 type RawLayer = BaseLayer RawLayer
 ```
 
-This is an example of a Layer that "inherits" BaseLayer and you can then use a Layer in every function that takes a BaseLayer a.
+This is an example of a ***Layer*** that "inherits" ***BaseLayer*** and you can then use a ***Layer*** in every function that takes a ***BaseLayer a***.
 
 ### Optional record fields
 The following pattern is used to support optional record fields within OpenLayers:
@@ -71,7 +70,7 @@ create :: forall l r . Union l r Options => Record l -> Effect ....
 create o = ....
 ```
 
-This is an example of a create (mapping of a new operator within Openlayers) is done.
+This is an example of how a ***create*** function is mapped to the javascript ***new*** function.
 
 ### Record fields with multiple types
 The following pattern is used to support record fields that can have multiple types within OpenLayers:
