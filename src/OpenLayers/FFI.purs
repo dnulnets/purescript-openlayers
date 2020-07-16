@@ -8,6 +8,9 @@ module OpenLayers.FFI (
 
     , notNullOrUndefined
 
+    , doit
+    , Test(..)
+
     , toNullable
     , toUndefined
     , toMaybe) where
@@ -15,8 +18,15 @@ module OpenLayers.FFI (
 -- Data imports
 import Data.Maybe (Maybe(..), maybe)
 import Data.Function.Uncurried
-  (Fn3
+  (Fn1
+  , Fn3
+  , runFn1
   , runFn3)
+
+import Prelude
+
+-- Effect imports
+import Effect (Effect)
 
 --
 -- Foreign data types
@@ -46,3 +56,25 @@ toUndefined = maybe undefined notNullOrUndefined
 -- |Converts `null` or `undefined` to `Nothing`, and `NullableOrUndefined a` to `Just a`.
 toMaybe :: forall a. NullableOrUndefined a -> Maybe a
 toMaybe n = runFn3 nullableOrUndefined n Nothing Just
+
+--
+-- Test area
+--
+
+-- data Test = Test String
+newtype Test = Test String
+
+
+-- newtype NTest = Test
+
+-- type TTest = Test
+
+foreign import doitImpl :: Fn1 Test (Effect Unit)
+
+doit::Test->Effect Unit
+doit t = runFn1 doitImpl t
+
+-- foreign import test::Test
+-- foreign import ntest::NTest
+-- foreign import ttest::TTest
+

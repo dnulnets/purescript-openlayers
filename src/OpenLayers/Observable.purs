@@ -56,4 +56,3 @@ foreign import unImpl :: forall o . Fn3 String Events.EventsKey (Observable o) (
 
 un::forall o . String->Events.EventsKey->Observable o->Effect Unit
 un s ef o = runFn3 unImpl s ef o
-

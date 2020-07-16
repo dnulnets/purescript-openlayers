@@ -27,6 +27,12 @@ exports.notNullOrUndefined = function (x) {
   return x;
 };
 
+exports.doitImpl = function (t) {
+    return function () {
+        console.log (t);
+    }
+}
+
 /*
 ** Example:
 **

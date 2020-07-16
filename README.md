@@ -70,7 +70,7 @@ create :: forall l r . Union l r Options => Record l -> Effect ....
 create o = ....
 ```
 
-This is an example of how a ***create*** function is mapped to the javascript ***new*** function.
+This is an example of how a ***create*** function is mapped to the javascript ***new*** function that takes an options parameter with optional fields.
 
 ### Record fields with multiple types
 The following pattern is used to support record fields that can have multiple types within OpenLayers:
