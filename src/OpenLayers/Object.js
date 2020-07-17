@@ -9,7 +9,9 @@
 var ol  = require ('ol');
 
 exports.getImpl = function (name, self) {
-    return function() {
-        return self.get(name); 
-    }
+    return self.get(name); 
+}
+
+exports.setImpl = function (name, v, b, self) {
+    return self.set(name, v, b);
 }

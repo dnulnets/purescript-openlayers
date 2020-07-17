@@ -15,25 +15,31 @@ module OpenLayers.Object (
     , BaseObject
     , RawBaseObject    
     , get
+    , set
+    , set'
 
     , ObjectEvent
     , RawObjectEvent) where
 
 -- Standard import
 import Prelude
-
-import Foreign (Foreign, isNull, isUndefined, unsafeFromForeign)
+import Foreign (Foreign, isNull, isUndefined, unsafeFromForeign, unsafeToForeign)
 
 -- Data imports
+import Data.Nullable (Nullable, toNullable)
 import Data.Maybe (Maybe(..))
 import Data.Function.Uncurried (
     Fn2
-    , runFn2)
+    , Fn4
+
+    , runFn2
+    , runFn4)
 
 -- Effect imports
 import Effect (Effect)
 
 -- Our own imports
+import OpenLayers.FFI as FFI
 import OpenLayers.Observable (Observable, RawObservable, Target, on, once, un) as Observable
 import OpenLayers.Events.Event (BaseEvent, RawBaseEvent) as Event
 
@@ -50,17 +56,27 @@ type ObjectEvent a = Event.BaseEvent a
 -- Functions
 --
 
--- TODO: This is a really ugly version of a get, no type safety :-(
--- Really, really, really need to fix this!!!!
-foreign import getImpl :: forall a . Fn2 String (BaseObject a) (Effect Foreign)
+foreign import getImpl :: forall a . Fn2 String (BaseObject a) Foreign
 
--- |Take care, this has no type safety because of the `forall v` and
--- |I use `unsafeFromForeign`. It will be reworked.
-get :: forall o v . String -> BaseObject o -> Effect (Maybe v)
+-- |Take care, this has no type safety of objects stored on the javascript
+-- side and gets transferred to the purescript side. It uses `unsafeFromForeign` to
+-- do the conversion.
+get :: forall o v . String -> BaseObject o -> Maybe v
 get n self = do
-    f <- runFn2 getImpl n self
     case isNull f || isUndefined f of
         true ->
-            pure Nothing
+            Nothing
         false ->
-            pure $ Just $ unsafeFromForeign f
+            Just $ unsafeFromForeign f
+    where
+        f = runFn2 getImpl n self
+
+foreign import setImpl :: forall a . Fn4 String (Nullable Foreign) (FFI.NullableOrUndefined Boolean) (BaseObject a) (Effect Unit)
+
+set :: forall o v . String -> Maybe v -> Boolean -> BaseObject o -> Effect Unit
+set n v b self = runFn4 setImpl n (toNullable (unsafeToForeign <$> v)) (FFI.notNullOrUndefined b) self
+
+-- |Sets a value to a parameter but uses the default value for event generation, see
+-- `set` in the OpenLayers API documentation.
+set' :: forall o v . String -> Maybe v -> BaseObject o -> Effect Unit
+set' n v self = runFn4 setImpl n (toNullable (unsafeToForeign <$> v)) FFI.undefined self

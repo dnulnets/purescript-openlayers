@@ -25,11 +25,14 @@ module OpenLayers.Collection (
 import Prim.Row (class Union)
 
 -- Data imports
+import Data.Maybe (Maybe(..))
 import Data.Function.Uncurried
   ( Fn1
   , Fn2
+  , Fn4
   , runFn1
-  , runFn2)
+  , runFn2
+  , runFn4)
 
 -- Effect imports
 import Effect (Effect)
@@ -65,10 +68,10 @@ foreign import extendImpl :: forall t . Fn2 (Array t) (Collection t) (Collection
 extend :: forall t . Array t -> Collection t -> Collection t
 extend a c = runFn2 extendImpl a c
 
-foreign import itemImpl :: forall t . Fn2 Int (Collection t) t
+foreign import itemImpl :: forall t . Fn4 (t->Maybe t) (Maybe t) Int (Collection t) (Maybe t)
 
-item::forall t . Int->Collection t->t
-item i self = runFn2 itemImpl i self
+item::forall t . Int->Collection t->Maybe t
+item i self = runFn4 itemImpl Just Nothing i self
 
 --
 -- Getters

@@ -19,10 +19,14 @@ exports.extendImpl = function (arr, self) {
     return self.extend (arr);
 }
 
-exports.getLengthImpl = function (self) {
+exports.getLengthImpl = function (self) {    
     return self.getLength();
 }
 
-exports.itemImpl = function (i, self) {
-    return self.item(i);
+exports.itemImpl = function (j, n, i, self) {
+    if ((i>=0) && (i<self.getLength())) {
+        return j(self.item(i));
+    } else {
+        return n;
+    }
 }
