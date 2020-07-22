@@ -59,7 +59,7 @@ import OpenLayers.Object(BaseObject, ObjectEvent) as Object
 import OpenLayers.Observable (on, un, once) as Observable
 import OpenLayers.Events (EventsKey, ListenerFunction) as Events
 import OpenLayers.Events.Event (BaseEvent) as Event
-
+import OpenLayers.Coordinate as Coordinate
 --
 -- Foreign data types
 --
@@ -104,8 +104,8 @@ foreign import getAccuracyGeometryImpl :: Fn1 Geolocation (Effect Polygon.Polygo
 getAccuracyGeometry :: Geolocation -> Effect Polygon.Polygon
 getAccuracyGeometry self = runFn1 getAccuracyGeometryImpl self
 
-foreign import getPositionImpl :: Fn1 Geolocation (Effect (FFI.NullableOrUndefined (Array Number)))
-getPosition :: Geolocation -> Effect (Maybe (Array Number))
+foreign import getPositionImpl :: Fn1 Geolocation (Effect (FFI.NullableOrUndefined Coordinate.Coordinate))
+getPosition :: Geolocation -> Effect (Maybe Coordinate.Coordinate)
 getPosition self = FFI.toMaybe <$> runFn1 getPositionImpl self
 
 foreign import getAltitudeImpl :: Fn1 Geolocation (Effect (FFI.NullableOrUndefined Number))

@@ -17,5 +17,5 @@ exports.fromLonLatImpl = function (coord,srs) {
 }
 
 exports.toLonLatImpl = function (coord,srs) {
-    return olp.fromLonLat (coord, srs);
+    return olp.toLonLat (coord, srs);
 }
