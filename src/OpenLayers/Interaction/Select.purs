@@ -84,7 +84,10 @@ foreign import data Layers :: Type
 type LayerFilterFunction l = Layer.Layer l -> Effect Boolean
 
 -- |The options for the creation of the Select. See the `options` parameter in `new Select(options)` in the OpenLayers API documentation.
-type Options = (multi::Boolean, layers:: Layers, toggleCondition:: Condition.Condition)
+type Options = (multi::Boolean, 
+  layers:: Layers
+  , condition:: Condition.Condition
+  , toggleCondition:: Condition.Condition)
 
 -- |Constructors for the layers element in `Options`.
 layers::forall l . {asArray::Array (Layer.Layer l)->Layers, asFunction::LayerFilterFunction l->Layers}

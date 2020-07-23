@@ -10,7 +10,9 @@
 -- |
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.PluggableMap (
-  PluggableMap
+  module Object
+  
+  , PluggableMap
   , RawPluggableMap
 
   , addLayer
@@ -43,6 +45,7 @@ import OpenLayers.FFI as FFI
 import OpenLayers.View as View
 import OpenLayers.Layer.Base as Base
 import OpenLayers.Interaction.Interaction as Interaction
+import OpenLayers.Object (BaseObject, get, on, once, un) as Object
 
 --
 -- Foreign data types
@@ -50,7 +53,8 @@ import OpenLayers.Interaction.Interaction as Interaction
 
 -- |The FFI version of the Map. For internal use only!
 foreign import data RawPluggableMap :: Type->Type
-type PluggableMap a = RawPluggableMap a
+type PluggableMap a = Object.BaseObject (RawPluggableMap a)
+
 --
 -- Function mapping
 --
