@@ -47,7 +47,10 @@ type CircleStyle = RegularShape.RegularShape RawCircleStyle
 foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r)) (Effect CircleStyle)
 
 -- |The options for the creation of the CircleStyle. See the `options` parameter in `new CircleStyle(options)` in the OpenLayers API documentation.
-type Options = (radius :: Number, fill :: Fill.Fill, stroke :: Stroke.Stroke, displacement :: Array Number)
+type Options = (radius :: Number
+  , fill :: Fill.Fill
+  , stroke :: Stroke.Stroke
+  , displacement :: Array Number)
 
 -- |Creates a `Circle`, see `new Circle(r)` in the OpenLayers API documentation.
 create :: forall l r . Union l r Options => Record l -> Effect CircleStyle
