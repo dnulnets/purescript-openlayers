@@ -16,7 +16,7 @@ module OpenLayers.Layer.BaseVector (
   , RawBaseVectorLayer ) where
 
 -- Our own imports
-import OpenLayers.Layer.Layer (BaseLayer, Layer, RawBaseLayer, RawLayer, setSource) as Layer
+import OpenLayers.Layer.Layer (BaseLayer, Layer, RawBaseLayer, RawLayer, setSource, getSource) as Layer
 
 --
 -- Foreign data types

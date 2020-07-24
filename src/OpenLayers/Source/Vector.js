@@ -17,3 +17,9 @@ exports.createImpl = function (opt) {
         return new ols.Vector (opt);
     }
 }
+
+exports.removeFeatureImpl = function (f, self) {
+    return function() {
+        return self.removeFeature (f);
+    }
+}

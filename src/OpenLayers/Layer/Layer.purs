@@ -13,15 +13,20 @@ module OpenLayers.Layer.Layer (
   module Base
 
   , Layer
-  , RawLayer,
+  , RawLayer
   
-  setSource ) where
+  , setSource
+  , getSource ) where
 
 import Prelude
 
 -- Standard imports
+import Data.Maybe (Maybe)
+import Data.Nullable (Nullable, toMaybe)
 import Data.Function.Uncurried
-  ( Fn2
+  ( Fn1
+  , Fn2
+  , runFn1
   , runFn2)
 
 -- Import Effects
@@ -46,3 +51,7 @@ type Layer a = Base.BaseLayer (RawLayer a)
 foreign import setSourceImpl::forall s l . Fn2 (Source.Source s) (Layer l) (Effect Unit)
 setSource::forall s l . Source.Source s->Layer l->Effect Unit
 setSource src self = runFn2 setSourceImpl src self 
+
+foreign import getSourceImpl::forall s l . Fn1 (Layer l) (Effect (Nullable (Source.Source s)))
+getSource::forall s l . Layer l->Effect (Maybe (Source.Source s))
+getSource self = toMaybe <$> runFn1 getSourceImpl self

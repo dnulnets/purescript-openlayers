@@ -18,12 +18,16 @@ module OpenLayers.Source.Vector (
   , RawVectorSource
   , Options(..)
   , create
-  , create') where
+  , create'
+  , removeFeature ) where
 
 -- Data imports
+import Prelude
 import Data.Function.Uncurried
   ( Fn1
-  , runFn1)
+  , Fn2
+  , runFn1
+  , runFn2 )
 
 -- Standard imports
 import Prim.Row (class Union)
@@ -63,3 +67,7 @@ create o = runFn1 createImpl (FFI.notNullOrUndefined o)
 -- |Creates a `Vector` source with defaults, see `new Vector()` in the OpenLayers API documentation.
 create' :: Effect VectorSource
 create' = runFn1 createImpl FFI.undefined
+
+foreign import removeFeatureImpl :: Fn2 Feature.Feature VectorSource (Effect Unit)
+removeFeature::Feature.Feature->VectorSource->Effect Unit
+removeFeature f s = runFn2 removeFeatureImpl f s

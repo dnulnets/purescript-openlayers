@@ -16,3 +16,9 @@ exports.setSourceImpl = function (src, self) {
         self.setSource (src);
     }
 }
+
+exports.getSourceImpl = function (self) {
+    return function() {
+        return self.getSource (self);
+    }
+}

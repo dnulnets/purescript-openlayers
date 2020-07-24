@@ -39,7 +39,7 @@ import Data.Function.Uncurried
 import Effect (Effect)
 
 -- Our own imports
-import OpenLayers.Layer.BaseVector (BaseLayer, BaseVectorLayer, Layer, RawBaseLayer, RawBaseVectorLayer, RawLayer, setSource) as BaseVector
+import OpenLayers.Layer.BaseVector (BaseLayer, BaseVectorLayer, Layer, RawBaseLayer, RawBaseVectorLayer, RawLayer, setSource, getSource) as BaseVector
 import OpenLayers.Source.Vector as Vector
 import OpenLayers.Style.Style as Style
 import OpenLayers.Feature as Feature
