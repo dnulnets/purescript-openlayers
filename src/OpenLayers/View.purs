@@ -17,6 +17,8 @@ module OpenLayers.View (
   , create'
 
   , setCenter
+  , getCenter
+  , getResolution
 
   , getProjection) where
 
@@ -39,6 +41,7 @@ import Effect (Effect)
 -- Our own imports
 import OpenLayers.FFI as FFI
 import OpenLayers.Proj as Proj
+import OpenLayers.Coordinate as Coordinate
 
 --
 -- Foreign data types
@@ -67,7 +70,7 @@ create' = runFn1 createImpl FFI.undefined
 --
 foreign import setCenterImpl :: Fn2(Array Number) View (Effect Unit)
 
-setCenter :: Array Number -> View -> Effect Unit
+setCenter :: Coordinate.Coordinate -> View -> Effect Unit
 setCenter pos self = runFn2 setCenterImpl pos self
 
 --
@@ -77,3 +80,13 @@ foreign import getProjectionImpl :: Fn1 View (Effect (Nullable String))
 
 getProjection :: View -> Effect (Maybe String)
 getProjection self = toMaybe <$> runFn1 getProjectionImpl self
+
+foreign import getResolutionImpl :: Fn1 View (Effect (FFI.NullableOrUndefined Number))
+
+getResolution :: View -> Effect (Maybe Number)
+getResolution self = FFI.toMaybe <$> runFn1 getResolutionImpl self
+
+foreign import getCenterImpl :: Fn1 View (Effect (FFI.NullableOrUndefined Coordinate.Coordinate))
+
+getCenter :: View -> Effect (Maybe Coordinate.Coordinate)
+getCenter self = FFI.toMaybe <$> runFn1 getCenterImpl self

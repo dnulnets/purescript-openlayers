@@ -27,9 +27,9 @@ exports.notNullOrUndefined = function (x) {
   return x;
 };
 
-exports.doitImpl = function (t) {
+exports.printImpl = function (t) {
     return function () {
-        console.log (t);
+        console.log (t, typeof(t));
     }
 }
 

@@ -7,10 +7,8 @@ module OpenLayers.FFI (
     , undefined
 
     , notNullOrUndefined
-
-    , doit
-    , Test(..)
-
+    , print
+    
     , toNullable
     , toUndefined
     , toMaybe) where
@@ -57,24 +55,7 @@ toUndefined = maybe undefined notNullOrUndefined
 toMaybe :: forall a. NullableOrUndefined a -> Maybe a
 toMaybe n = runFn3 nullableOrUndefined n Nothing Just
 
---
--- Test area
---
-
--- data Test = Test String
-newtype Test = Test String
-
-
--- newtype NTest = Test
-
--- type TTest = Test
-
-foreign import doitImpl :: Fn1 Test (Effect Unit)
-
-doit::Test->Effect Unit
-doit t = runFn1 doitImpl t
-
--- foreign import test::Test
--- foreign import ntest::NTest
--- foreign import ttest::TTest
-
+-- |Prints out anything on the console
+foreign import printImpl :: forall a . Fn1 a (Effect Unit)
+print::forall a . a -> Effect Unit
+print a = runFn1 printImpl a

@@ -11,7 +11,7 @@
 -- | https://openlayers.org/en/latest/apidoc/
 module OpenLayers.PluggableMap (
   module Object
-  
+
   , PluggableMap
   , RawPluggableMap
 
@@ -20,8 +20,13 @@ module OpenLayers.PluggableMap (
 
   , getView
 
+  , getSize
+
   , setTarget
   , clearTarget
+
+  , onRenderComplete
+  , unRenderComplete
 
   ) where
 
@@ -44,8 +49,12 @@ import Effect (Effect)
 import OpenLayers.FFI as FFI
 import OpenLayers.View as View
 import OpenLayers.Layer.Base as Base
+import OpenLayers.Size as Size
 import OpenLayers.Interaction.Interaction as Interaction
 import OpenLayers.Object (BaseObject, get, on, once, un) as Object
+import OpenLayers.Render.Event as Event
+import OpenLayers.Events (EventsKey, ListenerFunction) as Events
+import OpenLayers.Observable (on, un) as Observable
 
 --
 -- Foreign data types
@@ -80,6 +89,11 @@ foreign import getViewImpl :: forall m . Fn1 (PluggableMap m) (Effect (Nullable 
 getView :: forall m . PluggableMap m -> Effect (Maybe View.View)
 getView o = toMaybe <$> runFn1 getViewImpl o
 
+foreign import getSizeImpl :: forall m . Fn1 (PluggableMap m) (Effect (Nullable Size.Size))
+
+getSize :: forall m . PluggableMap m -> Effect (Maybe Size.Size)
+getSize o = toMaybe <$> runFn1 getSizeImpl o
+
 --
 -- set function
 --
@@ -94,3 +108,21 @@ setTarget s self = runFn2 setTargetImpl (FFI.toNullable s) self
 -- |Clears the current target, see `setTarget` of the `PluggableMap` in the OpenLayers API documentation.
 clearTarget::forall m . PluggableMap m -> Effect Unit
 clearTarget self = runFn2 setTargetImpl FFI.undefined self
+
+--
+-- All on functions
+--
+
+-- |Registers a listener function for the select event, see `on` for the Select object
+-- |in the OpenLayers API documentation.
+onRenderComplete :: forall a . Events.ListenerFunction Event.RenderEvent -> PluggableMap a -> Effect Events.EventsKey
+onRenderComplete = Observable.on "rendercomplete"
+
+--
+-- All un functions
+--
+
+-- |Unregisters a listener function for the select event, see `un` for the Select object
+-- |in the Openlayers API documentation.
+unRenderComplete :: forall a . Events.EventsKey -> PluggableMap a -> Effect Unit
+unRenderComplete key self = Observable.un "rendercomplete" key self

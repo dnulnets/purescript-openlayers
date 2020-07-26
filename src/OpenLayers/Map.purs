@@ -63,8 +63,11 @@ import OpenLayers.PluggableMap (
   , addLayer
   , getView
   , setTarget
+  , getSize
   , on
   , un
+  , onRenderComplete
+  , unRenderComplete
   , clearTarget) as PluggableMap
 --
 -- Foreign data types

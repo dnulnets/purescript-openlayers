@@ -26,6 +26,12 @@ exports.getViewImpl = function (self) {
     }
 }
 
+exports.getSizeImpl = function (self) {
+    return function() {
+        return self.getSize();
+    }
+}
+
 exports.setTargetImpl = function (s, self) {
     return function() {
         return self.setTarget(s);

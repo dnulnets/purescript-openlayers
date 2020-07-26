@@ -31,3 +31,5 @@ exports.setCenterImpl = effize("setCenter");
 
 // Getters
 exports.getProjectionImpl = effize("getProjection");
+exports.getResolutionImpl = effize("getResolution");
+exports.getCenterImpl = effize("getCenter");
