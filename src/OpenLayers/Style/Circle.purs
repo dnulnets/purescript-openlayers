@@ -41,6 +41,7 @@ import OpenLayers.Style.RegularShape (ImageStyle, RawImageStyle, RawRegularShape
 -- 
 foreign import data RawCircleStyle :: Type
 type CircleStyle = RegularShape.RegularShape RawCircleStyle
+
 --
 -- Function mapping
 --
