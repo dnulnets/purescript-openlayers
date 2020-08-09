@@ -20,6 +20,12 @@ exports.addLayerImpl = function (layer, self) {
     }
 }
 
+exports.addOverlayImpl = function (overlay, self) {
+  return function() {
+      self.addOverlay(overlay);
+  }
+}
+
 exports.getViewImpl = function (self) {
     return function() {
         return self.getView();

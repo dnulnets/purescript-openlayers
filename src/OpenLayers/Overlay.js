@@ -8,9 +8,14 @@
 // Get hold of the OpenLayer types and functions
 var ol  = require ('ol');
 
+exports.setPositionImpl = function (pos, self) {
+  return function() {
+    return self.setPosition (pos);
+  }
+}
+
 exports.createImpl = function (opt) {
     return function() {
-        var r = new ol.Overlay(opt);
-        return r;        
+        return new ol.Overlay(opt);
     }
 }

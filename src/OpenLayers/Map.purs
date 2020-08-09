@@ -46,7 +46,7 @@ import Data.Function.Uncurried
 import Effect (Effect)
 
 -- Web imports
-import Web.DOM.Element (Element)
+import Web.DOM (Element)
 import Web.DOM.Document (Document)
 
 -- Openlayers
@@ -61,6 +61,7 @@ import OpenLayers.PluggableMap (
   PluggableMap
   , addInteraction
   , addLayer
+  , addOverlay
   , getView
   , setTarget
   , getSize

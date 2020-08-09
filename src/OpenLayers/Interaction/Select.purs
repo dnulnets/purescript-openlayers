@@ -19,7 +19,8 @@ module OpenLayers.Interaction.Select
     , RawSelectEvent
     , getSelected
     , getDeselected
-
+    , getMapBrowserEvent
+    
     -- Select
     , Select
     , RawSelect
@@ -56,6 +57,7 @@ import OpenLayers.Events.Condition as Condition
 import OpenLayers.Observable (on, un) as Observable
 import OpenLayers.Collection as Collection
 import OpenLayers.Layer.Layer as Layer
+import OpenLayers.MapBrowserEvent as MapBrowserEvent
 
 --
 -- Foreign data types
@@ -71,6 +73,7 @@ type SelectEvent = Event.BaseEvent RawSelectEvent
 --
 foreign import getSelected :: SelectEvent->Effect (Array Feature.Feature)
 foreign import getDeselected :: SelectEvent->Effect (Array Feature.Feature)
+foreign import getMapBrowserEvent :: SelectEvent->Effect MapBrowserEvent.MapBrowserEvent
 
 --
 -- Function mapping Select

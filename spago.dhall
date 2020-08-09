@@ -14,6 +14,7 @@ You can edit this file as you like.
   , "web-dom"
   , "variant"
   , "typelevel-prelude"
+  , "web-html"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

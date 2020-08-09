@@ -62,3 +62,4 @@ exports.getFeaturesImpl = function (self) {
 //
 exports.getSelected=effgetfield("selected");
 exports.getDeselected=effgetfield("deselected");
+exports.getMapBrowserEvent=effgetfield("mapBrowserEvent")

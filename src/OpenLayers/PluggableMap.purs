@@ -16,6 +16,7 @@ module OpenLayers.PluggableMap (
   , RawPluggableMap
 
   , addLayer
+  , addOverlay
   , addInteraction
 
   , getView
@@ -49,6 +50,7 @@ import Effect (Effect)
 import OpenLayers.FFI as FFI
 import OpenLayers.View as View
 import OpenLayers.Layer.Base as Base
+import OpenLayers.Overlay as Overlay
 import OpenLayers.Size as Size
 import OpenLayers.Interaction.Interaction as Interaction
 import OpenLayers.Object (BaseObject, get, on, once, un) as Object
@@ -75,6 +77,11 @@ foreign import addLayerImpl :: forall l m . Fn2 (Base.BaseLayer l) (PluggableMap
 
 addLayer :: forall l m . Base.BaseLayer l -> PluggableMap m -> Effect Unit
 addLayer o = runFn2 addLayerImpl o
+
+foreign import addOverlayImpl :: forall m . Fn2 Overlay.Overlay (PluggableMap m) (Effect Unit)
+
+addOverlay :: forall m . Overlay.Overlay -> PluggableMap m -> Effect Unit
+addOverlay o = runFn2 addOverlayImpl o
 
 foreign import addInteractionImpl :: forall i m . Fn2 (Interaction.Interaction i) (PluggableMap m) (Effect Unit)
 
