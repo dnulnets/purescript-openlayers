@@ -18,6 +18,8 @@ module OpenLayers.View (
 
   , setCenter
   , getCenter
+  , setZoom
+  , getZoom
   , getResolution
 
   , getProjection) where
@@ -73,6 +75,11 @@ foreign import setCenterImpl :: Fn2(Array Number) View (Effect Unit)
 setCenter :: Coordinate.Coordinate -> View -> Effect Unit
 setCenter pos self = runFn2 setCenterImpl pos self
 
+foreign import setZoomImpl :: Fn2 Number View (Effect Unit)
+
+setZoom :: Number -> View -> Effect Unit
+setZoom z self = runFn2 setZoomImpl z self
+
 --
 -- get functins
 --
@@ -90,3 +97,8 @@ foreign import getCenterImpl :: Fn1 View (Effect (FFI.NullableOrUndefined Coordi
 
 getCenter :: View -> Effect (Maybe Coordinate.Coordinate)
 getCenter self = FFI.toMaybe <$> runFn1 getCenterImpl self
+
+foreign import getZoomImpl :: Fn1 View (Effect (FFI.NullableOrUndefined Number))
+
+getZoom :: View -> Effect (Maybe Number)
+getZoom self = FFI.toMaybe <$> runFn1 getZoomImpl self

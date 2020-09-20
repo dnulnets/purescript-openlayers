@@ -28,6 +28,8 @@ module OpenLayers.PluggableMap (
 
   , onRenderComplete
   , unRenderComplete
+  , onPreCompose
+  , unPreCompose
 
   ) where
 
@@ -125,6 +127,9 @@ clearTarget self = runFn2 setTargetImpl FFI.undefined self
 onRenderComplete :: forall a . Events.ListenerFunction Event.RenderEvent -> PluggableMap a -> Effect Events.EventsKey
 onRenderComplete = Observable.on "rendercomplete"
 
+onPreCompose :: forall a . Events.ListenerFunction Event.RenderEvent -> PluggableMap a -> Effect Events.EventsKey
+onPreCompose = Observable.on "precompose"
+
 --
 -- All un functions
 --
@@ -133,3 +138,6 @@ onRenderComplete = Observable.on "rendercomplete"
 -- |in the Openlayers API documentation.
 unRenderComplete :: forall a . Events.EventsKey -> PluggableMap a -> Effect Unit
 unRenderComplete key self = Observable.un "rendercomplete" key self
+
+unPreCompose :: forall a . Events.EventsKey -> PluggableMap a -> Effect Unit
+unPreCompose key self = Observable.un "precompose" key self

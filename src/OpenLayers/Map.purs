@@ -64,6 +64,8 @@ import OpenLayers.PluggableMap
   , un
   , onRenderComplete
   , unRenderComplete
+  , onPreCompose
+  , unPreCompose
   , clearTarget
   )
   as PluggableMap

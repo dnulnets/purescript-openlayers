@@ -28,8 +28,10 @@ exports.createImpl = function (opt) {
 
 // Setters
 exports.setCenterImpl = effize("setCenter");
+exports.setZoomImpl = effize("setZoom");
 
 // Getters
 exports.getProjectionImpl = effize("getProjection");
 exports.getResolutionImpl = effize("getResolution");
 exports.getCenterImpl = effize("getCenter");
+exports.getZoomImpl = effize("getZoom");
