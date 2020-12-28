@@ -31,14 +31,14 @@ import Effect (Effect)
 -- Own imports
 import OpenLayers.FFI as FFI
 import OpenLayers.Style.Fill as Fill
-import OpenLayers.Style.Image (RawImageStyle) as Image
+import OpenLayers.Style.Image (ImageStyle) as Image
 import OpenLayers.Style.Stroke as Stroke
 
 --
 -- Foreign data types
 -- 
 foreign import data RawIconStyle :: Type
-type Icon = Image.RawImageStyle RawIconStyle
+type Icon = Image.ImageStyle RawIconStyle
 
 --
 -- Function mapping
