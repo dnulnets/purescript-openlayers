@@ -11,6 +11,7 @@
 module OpenLayers.Style.Icon (
 
     Icon
+  , RawIconStyle
   , Options(..)
   , create
   , create'
@@ -30,12 +31,14 @@ import Effect (Effect)
 -- Own imports
 import OpenLayers.FFI as FFI
 import OpenLayers.Style.Fill as Fill
+import OpenLayers.Style.Image (ImageStyle) as Image
 import OpenLayers.Style.Stroke as Stroke
 
 --
 -- Foreign data types
 -- 
-foreign import data Icon :: Type
+foreign import data RawIconStyle :: Type
+type Icon = Image.ImageStyle RawIconStyle
 
 --
 -- Function mapping
