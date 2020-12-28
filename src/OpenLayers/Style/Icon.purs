@@ -47,6 +47,8 @@ foreign import createImpl :: forall r . Fn1 (FFI.NullableOrUndefined (Record r))
 
 -- |The options for the creation of the Icon. See the `options` parameter in `new Icon(options)` in the OpenLayers API documentation.
 type Options = (anchor :: Array Number
+  , anchorXUnits :: String
+  , anchorYUnits :: String
   , size :: Array Int
   , offset :: Array Int
   , opacity :: Number 
