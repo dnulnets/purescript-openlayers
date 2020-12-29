@@ -55,7 +55,7 @@ foreign import data RawBaseLayer :: Type -> Type
 foreign import data RawLayer :: Type
 
 type BaseLayer a = RawBaseLayer a
-type RawLayer = BaseLayer RawLayer
+type Layer = BaseLayer RawLayer
 ```
 
 This is an example of a ***Layer*** that "inherits" ***BaseLayer*** and you can then use a ***Layer*** in every function that takes a ***BaseLayer a***.
