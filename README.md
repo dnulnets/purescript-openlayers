@@ -1,7 +1,7 @@
 # purescript-openlayers
-A purescript FFI binding for OpenLayers v6.3.1. It is by no means near a complete binding but fulfills the need for the Swedish IoT Hub Prototype for Accessibility Case 3, see https://github.com/dnulnets/haccessibility, for now.
+A purescript FFI binding for OpenLayers v6.5. It is by no means near a complete binding but fulfills the need for the Swedish IoT Hub Prototype for Accessibility Case 3, see https://github.com/dnulnets/haccessibility, for now.
 
-OpenLayers uses a lot of object inheritance, optional record fields and fields having mutiple types when creating the objects. It has been solved in purescript by using type parameters, Union, and a pattern of constructuor records and unsafeCoerce. See down below for more details.
+OpenLayers uses a lot of object inheritance, optional record fields and fields having mutiple types when creating the objects. It has been solved in purescript by using type parameters, Union, and a pattern of constructuor records and unsafeCoerce. See below for more details.
 
 ## Adding the library to your project
 
@@ -45,6 +45,10 @@ npm install ol
 
 ## Patterns used by the FFI Mapping for OpenLayers 
 All javascript ***new*** functions in OpenLayers are mapped to a correspondign ***create*** function for each class. The case when the options parameter for the javascript ***new*** function can be omitted completely a ***create'*** function is added.
+
+
+Please feel free to contibute to this library!
+
 
 In addition to that the following patterns have been used:
 ### Inheritance
