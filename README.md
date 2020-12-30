@@ -86,12 +86,12 @@ The following pattern is used to support record fields that can have multiple ty
 ```purescript
 foreign import data Target :: Type
 
-type Options = (element::Element, target::Target)
+type OptionalFields = (element::Element, target::Target)
 
 target::{asId::String->Target, asElement::Element->Target}
 target = {asId:unsafeCoerce, asElement:unsafeCoerce}
 
-create :: forall l r . Union l r Options => Record l -> Effect ...
+create :: forall l r . Union l r OptionalFields => Record l -> Effect ...
 create o = ...
 ```
 
