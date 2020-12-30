@@ -65,10 +65,17 @@ This is an example of a ***Layer*** that "inherits" ***BaseLayer*** and you can 
 The following pattern is used to support optional record fields within OpenLayers:
 
 ```purescript
-type Options = (a::String, b::Boolean)
+type OptionalFields = (a::String, b::Boolean)
 
-create :: forall l r . Union l r Options => Record l -> Effect ....
-create o = ....
+create :: forall l r . Union l r OptionalFields => Record l -> Effect ....
+create o = runFn1 createImpl (FFI.notNullOrUndefined o)
+```
+```javascript
+exports.createImpl = function (opt) {
+    return function() {
+        return new oll.Vector(opt);
+    }
+}
 ```
 
 This is an example of how a ***create*** function is mapped to the javascript ***new*** function that takes an options parameter with optional fields.
